@@ -56,7 +56,7 @@ Alternatively, you can manually download the source and include it in your proje
 
 ## Documentation
 
-For detailed guides on routing, plugin development, and configuration, please refer to the `recordatorio.md` file or visit our [online documentation](https://docs.flutcom.dev) (coming soon).
+For detailed guides on routing, plugin development, and configuration, you can visit the integrated documentation at [flutcom.net/#docs](https://flutcom.net/#docs).
 
 ## Contributing
 
