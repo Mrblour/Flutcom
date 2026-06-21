@@ -1,0 +1,30 @@
+<header class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 transition-all duration-300 rounded-full">
+  <div class="px-6 h-14 flex items-center justify-between">
+
+    <!-- Logo & Brand -->
+    <a href="#home" data-view="home" class="flex items-center gap-2 text-[#1d1d1f] no-underline hover:opacity-70 transition-opacity group animate-apple-text">
+      <img src="assets/img/flutcom.svg" alt="MyApp" style="width:20px;height:20px;" class="invert opacity-90 group-hover:scale-110 transition-transform duration-300">
+      <span style="font-weight:600;font-size:0.95rem;letter-spacing:-0.02em;">MyApp</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8 animate-apple-text delay-100">
+      <a href="#home" data-view="home" class="text-[13px] font-medium text-[#1d1d1f] opacity-70 hover:opacity-100 transition-opacity">Home</a>
+    </nav>
+
+    <!-- Right Actions -->
+    <div class="flex items-center gap-4">
+      <!-- Hamburger Mobile -->
+      <button data-mobile-toggle class="md:hidden w-8 h-8 flex items-center justify-center text-[#1d1d1f]">
+        <i class="bi bi-list text-xl"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Mobile Navigation Dropdown -->
+  <nav data-mobile-menu hidden class="absolute top-16 left-0 w-full bg-white/90 backdrop-blur-3xl border border-black/5 rounded-3xl flex flex-col px-6 py-4 gap-4 transition-all shadow-lg">
+    <a href="#home" data-view="home" class="text-sm font-semibold text-[#1d1d1f]">Home</a>
+  </nav>
+
+</header>

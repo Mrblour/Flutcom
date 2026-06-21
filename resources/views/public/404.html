@@ -1,0 +1,35 @@
+<main class="min-h-[calc(100vh-120px)] bg-white text-[#1d1d1f] font-sans flex flex-col items-center justify-center relative overflow-hidden">
+  
+  <!-- Apple Card Style Animated Gradient Background -->
+  <div class="absolute top-0 left-1/2 w-full max-w-[1200px] h-[600px] pointer-events-none z-0 opacity-90 animate-gradient-orb transform -translate-x-1/2">
+    <div class="absolute top-[-150px] left-[10%] w-[500px] h-[500px] bg-[#d977e8]/60 rounded-full blur-[100px] mix-blend-multiply"></div>
+    <div class="absolute top-[-100px] left-[40%] w-[600px] h-[600px] bg-[#ffd56b]/60 rounded-full blur-[100px] mix-blend-multiply"></div>
+    <div class="absolute top-[0px] right-[10%] w-[450px] h-[450px] bg-[#ff8c75]/50 rounded-full blur-[100px] mix-blend-multiply"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 flex flex-col items-center text-center px-6">
+    
+    <!-- Motion Text Intro -->
+    <h1 class="text-[5rem] md:text-[8rem] leading-none tracking-tighter mb-4 text-[#1d1d1f] animate-apple-text">
+      <span class="font-medium">This is</span> <span class="font-bold">404.</span>
+    </h1>
+    
+    <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-8 text-[#1d1d1f] animate-apple-text delay-200">
+      The page you're looking for<br/>can't be found.
+    </h2>
+
+    <p class="text-[#86868b] text-xl font-medium max-w-md mx-auto mb-14 animate-apple-text delay-300">
+      Check the URL or verify your <code class="text-[#1d1d1f] font-mono text-sm">flutcom.config.js</code> routing configuration.
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
+        <a href="#home" class="px-8 py-4 rounded-full bg-[#1d1d1f] text-white text-lg font-semibold hover:bg-black hover:scale-[1.03] active:scale-95 transition-all no-underline shadow-xl shadow-black/10">
+          Return Home
+        </a>
+        <a href="#routing" class="text-[#1d1d1f] text-lg font-semibold hover:underline flex items-center gap-1 opacity-70 hover:opacity-100 transition-opacity">
+          Learn more <i class="bi bi-chevron-right text-[13px] mt-1 font-bold"></i>
+        </a>
+      </div>
+  </div>
+
+</main>

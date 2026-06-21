@@ -1,0 +1,88 @@
+<main class="min-h-screen bg-[#f5f5f7] text-[#1d1d1f] font-sans flex flex-col items-center justify-center relative pt-32 pb-24 overflow-hidden">
+  
+  <!-- Apple Card Style Animated Gradient Background -->
+  <div class="absolute top-0 left-1/2 w-full max-w-[1200px] h-[600px] pointer-events-none z-0 opacity-80 animate-gradient-orb transform -translate-x-1/2">
+    <div class="absolute top-[-100px] left-[20%] w-[400px] h-[400px] bg-[#d977e8]/40 rounded-full blur-[100px] mix-blend-multiply"></div>
+    <div class="absolute top-[50px] left-[45%] w-[450px] h-[450px] bg-[#ffd56b]/40 rounded-full blur-[100px] mix-blend-multiply"></div>
+    <div class="absolute top-[-50px] right-[20%] w-[350px] h-[350px] bg-[#ff8c75]/40 rounded-full blur-[100px] mix-blend-multiply"></div>
+  </div>
+
+  <section class="text-center px-6 relative z-10 max-w-5xl w-full">
+
+    <!-- Hero Title -->
+    <div class="mb-16">
+      <div
+        class="inline-flex items-center justify-center w-20 h-20 rounded-[2rem] bg-white shadow-sm border border-black/5 mb-8 animate-apple-text delay-100 hover:scale-110 transition-transform duration-500">
+        <i class="bi bi-box-seam text-4xl text-[#1d1d1f]"></i>
+      </div>
+      <h1 class="text-6xl md:text-[5rem] font-bold mb-4 tracking-tighter text-[#1d1d1f] animate-apple-text delay-200">
+        Welcome to <span class="font-black">Flutcom.</span>
+      </h1>
+      <p class="text-2xl text-[#86868b] leading-relaxed font-medium animate-apple-text delay-300">
+        Your framework is installed and ready.
+      </p>
+    </div>
+
+    <!-- Apple Bento Box Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 text-left reveal reveal-up" data-delay="300">
+
+      <!-- Box 1: Start Editing -->
+      <div
+        class="md:col-span-2 bg-white rounded-[2rem] p-8 md:p-10 flex flex-col justify-between shadow-sm border border-black/5 hover:scale-[1.01] transition-transform duration-300">
+        <div>
+          <h3 class="text-[#1d1d1f] font-semibold text-2xl mb-2">Start editing this page</h3>
+          <p class="text-[#86868b] text-base font-medium mb-8">Modifica el HTML para ver los cambios instantáneos en tu
+            navegador.</p>
+        </div>
+        <div class="bg-[#f5f5f7] rounded-2xl p-4 border border-black/5 flex items-center justify-between">
+          <code class="text-[#1d1d1f] font-mono text-sm font-semibold">resources/views/public/home.html</code>
+          <i class="bi bi-braces text-[#86868b]"></i>
+        </div>
+      </div>
+
+      <!-- Box 2: Ultra Fast -->
+      <div
+        class="md:col-span-1 bg-white rounded-[2rem] p-8 md:p-10 flex flex-col justify-center items-center text-center shadow-sm border border-black/5 hover:scale-[1.01] transition-transform duration-300 animate-apple-text delay-200">
+        <div class="text-[#86868b] font-semibold text-sm mb-2 uppercase tracking-widest">Performance</div>
+        <div
+          class="text-[#1d1d1f] text-7xl font-bold tracking-tighter mb-2">
+          100<span class="text-5xl">%</span>
+        </div>
+        <div class="text-[#1d1d1f] font-medium">Lightning Fast</div>
+      </div>
+
+      <!-- Box 3: Components -->
+      <div
+        class="md:col-span-1 bg-white rounded-[2rem] p-8 flex flex-col justify-between shadow-sm border border-black/5 hover:scale-[1.01] transition-transform duration-300">
+        <div class="flex gap-3 mb-6">
+          <div class="w-12 h-12 rounded-full bg-[#e8e8ed] flex items-center justify-center text-[#1d1d1f]"><i
+              class="bi bi-box"></i></div>
+          <div class="w-12 h-12 rounded-full bg-[#e8e8ed] flex items-center justify-center text-[#1d1d1f]"><i
+              class="bi bi-grid"></i></div>
+        </div>
+        <div>
+          <h3 class="text-[#1d1d1f] font-semibold text-xl mb-1">Built-in UI</h3>
+          <p class="text-[#86868b] text-sm">Ready to use components.</p>
+        </div>
+      </div>
+
+      <!-- Box 4: Routing -->
+      <div
+        class="md:col-span-2 bg-white rounded-[2rem] p-8 flex flex-col justify-between shadow-sm border border-black/5 hover:scale-[1.01] transition-transform duration-300">
+        <div class="flex justify-between items-start mb-8">
+          <div>
+            <h3 class="text-[#1d1d1f] font-semibold text-xl mb-1">SPA Routing</h3>
+            <p class="text-[#86868b] text-sm">Zero configuration required.</p>
+          </div>
+          <i class="bi bi-router text-3xl text-[#1d1d1f]"></i>
+        </div>
+        <div class="w-full h-2 bg-[#f5f5f7] rounded-full overflow-hidden">
+          <div class="w-2/3 h-full bg-[#1d1d1f] rounded-full"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
