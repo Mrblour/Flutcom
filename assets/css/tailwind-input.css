@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+/* Rutas de archivos que deben escanearse para generar las clases */
+@source "../resources/**/*.html";
+@source "../config/**/*.js";
+@source "../index.html";

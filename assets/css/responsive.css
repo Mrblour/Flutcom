@@ -1,0 +1,30 @@
+/* CSS de layout y responsive general para Flutcom */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* Contenedor principal de la SPA (se aplica sobre #app > .app-shell) */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-shell main {
+  flex: 1;
+  /* El padding-top se maneja individualmente en cada vista con Tailwind (ej. pt-20) */
+  /* para permitir diseños con header transparente o full-screen */
+}
+
+/* Breakpoints básicos - Se mantienen para referencia pero el espaciado es controlado por Tailwind */
+@media (max-width: 640px) {
+  .app-shell main {
+    /* padding-inline manejado por clases utilitarias (px-4, px-6) */
+  }
+}
