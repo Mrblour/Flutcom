@@ -1,0 +1,14 @@
+{
+  "name": "create-flutcom",
+  "version": "1.0.0",
+  "description": "El instalador oficial de Flutcom Framework",
+  "main": "index.js",
+  "bin": {
+    "create-flutcom": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "yBlour",
+  "license": "MIT"
+}
