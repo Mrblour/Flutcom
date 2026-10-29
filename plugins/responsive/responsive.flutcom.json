@@ -1,0 +1,14 @@
+{
+  "name": "responsive",
+  "version": "1.0.0",
+  "description": "Gestión de breakpoints reactivos y clases de dispositivo (is-mobile, is-tablet, is-desktop) para Flutcom",
+  "author": "Comunidad Flutcom",
+  "enabled": true,
+  "options": {
+    "breakpoints": {
+      "mobile": 640,
+      "tablet": 1024
+    },
+    "syncWithStore": true
+  }
+}

@@ -1,0 +1,22 @@
+# Flutcom — Reglas para Cursor AI
+
+Antes de modificar cualquier archivo de este proyecto, **lee y obedece estrictamente**
+las directrices definidas en:
+
+- [`AGENTS.md`](AGENTS.md) — Resumen rápido y reglas de oro
+- [`.agents/README.md`](.agents/README.md) — Índice completo
+- [`.agents/rules/architecture.md`](.agents/rules/architecture.md) — Reglas arquitectónicas
+- [`.agents/rules/code-style.md`](.agents/rules/code-style.md) — Estilo de código
+- [`.agents/rules/design-system.md`](.agents/rules/design-system.md) — Sistema de diseño
+- [`.agents/context/project-overview.md`](.agents/context/project-overview.md) — Contexto del proyecto
+- [`.agents/context/file-map.md`](.agents/context/file-map.md) — Mapa de archivos
+
+## Reglas críticas (resumen mínimo)
+
+- ❌ NO uses librerías de runtime (React, Vue, Angular, etc.)
+- ❌ NO modifiques `flutcom/core.js` sin permiso explícito del usuario
+- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js`
+- ✅ Todo nuevo plugin DEBE declararse en `resources[]` de `flutcom.config.js`
+- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store`
+- ✅ Las vistas son fragmentos HTML (sin `<html>`, `<head>`, `<body>`)
+- ✅ Usar Vanilla JS (ES Modules) y Tailwind v4 como únicos toolings

@@ -1,47 +1,53 @@
 /**
- * flutcom.css — Estilos ÚNICAMENTE del framework
+ * flutcom.css — Framework core styles
  *
- * Este archivo solo debe contener lo que el motor necesita para funcionar:
- *   · Barra de progreso de navegación (#fc-bar)
- *   · Animaciones de transición de vistas
- *
- * TODO lo demás (dark mode, cards, botones, tipografía)
- * va en style.css o en los archivos de la app.
+ * Minimal styling required by the Flutcom engine:
+ *   · Navigation progress bar (#fc-bar) — Vercel minimal black style
+ *   · View transition animations (.fc-fade-in / .fc-fade-out)
+ *   · Custom semantic layout tags display rules
  */
 
-/* ─── Barra de progreso ───────────────────────────────────────────────────── */
+/* ─── Navigation Progress Bar (Vercel Minimal Black) ─────────────────────── */
 #fc-bar {
   position: fixed;
   top: 0;
   left: 0;
   width: 0%;
   height: 2px;
-  background: linear-gradient(90deg, #6366f1, #a78bfa);
+  background: #000000;
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
-  border-radius: 0 2px 2px 0;
-  transition: width 0.4s ease, opacity 0.3s ease;
+  transition: width 0.3s ease, opacity 0.2s ease;
 }
 
-/* ─── Transiciones de vista ──────────────────────────────────────────────── */
+/* ─── View Transitions ───────────────────────────────────────────────────── */
 .fc-fade-out {
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
+  transform: translateY(4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
 .fc-fade-in {
-  animation: fcFadeIn 0.3s ease both;
+  animation: fcFadeIn 0.25s ease both;
 }
 
 @keyframes fcFadeIn {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ─── Semantic Layout Elements ───────────────────────────────────────────── */
+flut-navbar,
+flut-header,
+flut-main,
+flut-content,
+flut-footer {
+  display: block;
 }

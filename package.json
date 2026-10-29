@@ -1,17 +1,24 @@
 {
-  "name": "main",
-  "version": "1.0.0",
-  "description": "```",
+  "name": "flutcom",
+  "version": "1.2.0",
+  "description": "Flutcom – a ultra‑fast, zero‑dependency SPA framework for static sites.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:css": "tailwindcss -i ./src/input.css -o ./assets/vendor/tailwind/tailwind.css --watch",
     "serve": "npx serve . -p 3000",
-    "dev": "node run/dev.js"
+    "dev": "node run/dev.js",
+    "build": "node run/build.js",
+    "preview": "node run/preview.js"
   },
-  "keywords": [],
+  "keywords": ["flutcom","spa","vanilla-js","framework"],
   "author": "yBlour",
   "license": "ISC",
+"homepage": "https://mrblour.github.io/Flutcom/",
+"repository": {
+  "type": "git",
+  "url": "https://github.com/Mrblour/Flutcom.git"
+},
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "autoprefixer": "^10.4.22",

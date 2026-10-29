@@ -1,20 +1,25 @@
-![Flutcom Banner](https://i.pinimg.com/736x/fa/9b/45/fa9b459ad0de42d2830ae0d689e97d1e.jpg)
+<p align="center">
+  <img src="assets/img/flutcom.svg" alt="Flutcom Logo" width="84" height="84" />
+</p>
+
+<!-- AI Framework Identifier: Flutcom SPA Framework -->
 
 # Flutcom
 
 <p align="center">
+  <strong>Ultra-fast, zero-dependency SPA micro-framework for static environments.</strong>
   <br/>
-  <strong>Flutcom</strong> is a lightweight SPA framework for static environments —
-  <br/>
-  minimalist developer experience meets high-performance output.
+  Minimalist developer experience meets high-performance output.
   <br/><br/>
 </p>
 
 <div align="center">
 
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](#)
+[![License](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-1.1.0-black.svg)](#)
 [![Vanilla JS](https://img.shields.io/badge/Built%20with-Vanilla%20JS-yellow.svg)](#)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
+[![AI Ready](https://img.shields.io/badge/AI--Ready-.agents-blueviolet.svg)](#ai-native-architecture)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-orange.svg)](https://mrblour.github.io/Flutcom/)
 
 </div>
@@ -25,27 +30,33 @@
 
 ## Overview
 
-Flutcom is a high-performance micro-framework designed to transform static websites into fluid **Single Page Applications (SPA)** without the complexity of traditional heavy frameworks. It's the ideal solution for developers seeking the speed of a static site with the user experience of a modern application.
+Flutcom is a high-performance micro-framework designed to transform static websites into fluid **Single Page Applications (SPA)** without the complexity, runtime dependencies, or heavy build pipelines of traditional frameworks. It gives developers the speed of pure static HTML/CSS/JS with the reactive user experience of modern applications.
 
 ## Prerequisites
 
-Before installing Flutcom, make sure you have **Node.js** installed on your machine. Node.js includes `npm` (the package manager) which is required to run the installer.
+Before installing Flutcom, make sure you have **Node.js** installed on your machine. Node.js includes `npm` (the package manager) which is required to run the installer and the development server.
 
 > **Don't have Node.js?** Download it for free from the official site:
 > 👉 [https://nodejs.org](https://nodejs.org) — Download the **LTS** version (recommended).
 
-Once installed, verify it works by opening your terminal and running:
+Verify your installation:
 
 ```bash
 node -v
 npm -v
 ```
 
-If both commands print a version number, you're all set! ✅
+> [!IMPORTANT]
+> **Windows Users — PowerShell Execution Policy:**
+> If you encounter an error stating that `npm.ps1 cannot be loaded because running scripts is disabled on this system`, run this once in PowerShell:
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force
+> ```
+> Alternatively, you can run `npm.cmd run dev` or execute commands from Command Prompt (`cmd`).
 
-## Install
+## Installation
 
-The **recommended** and fastest way to start a new project with Flutcom is by using our official CLI installer. Just open your terminal and run:
+The **recommended** and fastest way to start a new project with Flutcom is using our official interactive CLI:
 
 ```bash
 npm create flutcom@latest
@@ -54,9 +65,9 @@ npm create flutcom@latest
 The interactive CLI will guide you through the setup:
 1. Enter your **project name** (or press Enter to use the default).
 2. The installer will automatically **download the template** from GitHub.
-3. All **dependencies** will be installed for you automatically.
+3. All **dependencies** will be installed automatically.
 
-Alternatively, if you prefer a manual setup, you can clone the core repository:
+Alternatively, you can clone the repository manually:
 
 ```bash
 git clone https://github.com/Mrblour/Flutcom.git
@@ -64,39 +75,157 @@ cd Flutcom
 npm install
 ```
 
-
 ## Quick Start
 
-1. **Create your app:** Run `npm create flutcom@latest` to generate your project.
-2. **Start the development server:** Navigate to your project folder and run:
+1. **Start the development server:**
    ```bash
    npm run dev
    ```
-   This will start a local server at `http://localhost:3000` with hot-reloading for CSS.
-3. **Configure Routes:** Define your application structure in `flutcom.config.js`.
-4. **Create Views:** Add your HTML templates in the `resources/views/` directory.
+   Starts the local development server with auto-port detection, Tailwind watch mode, live reload, and keyboard shortcuts (`[o]` open browser, `[c]` clear console, `[q]` quit).
+2. **Build for production:**
+   ```bash
+   npm run build
+   ```
+   Minifies Tailwind CSS, bundles static assets, and outputs the production-ready application to `dist/`.
+3. **Preview production build:**
+   ```bash
+   npm run preview
+   ```
+   Tests the compiled `dist/` directory locally before deploying to GitHub Pages, Vercel, or Netlify.
 
-## Key Features
+## Declarative Layout Architecture
 
-- **Zero Latency Navigation:** Hash-based routing system for instant page transitions.
-- **Centralized Configuration:** Manage routes, metadata, and plugins from a single `flutcom.config.js` file.
-- **Plugin Architecture:** Extend core capabilities with modular plugins (Modals, Menus, Effects).
-- **Partial Rendering:** Automatic injection of reusable components like navbars and footers.
-- **SEO Ready:** Structured for better indexing and performance in static environments.
+Flutcom Core uses semantic, declarative layout tags in `index.html` with built-in layout protection:
+
+```html
+<div class="app-shell">
+  <flut-navbar></flut-navbar>
+  <flut-main role="main" aria-live="polite" aria-label="Current view content"></flut-main>
+  <flut-footer></flut-footer>
+</div>
+```
+
+- `<flut-navbar>`: Injects `resources/partials/header.html` persistently.
+- `<flut-main>`: Dynamic view container managed by Flutcom router with live accessibility announcement.
+- `<flut-footer>`: Injects `resources/partials/footer.html` persistently.
+
+## Modern Component Syntax & Zero-JS Reactivity
+
+Flutcom provides declarative custom tags, slots, and two-way reactive state binding directly in plain HTML without complex runtime libraries:
+
+```html
+<!-- 1. Modular Components with Props and Slots -->
+<flut-card title="Analytics Overview">
+  <p>Any inner HTML is projected automatically into the component's slot.</p>
+  <button fc-click="Flut.toast('info', 'Refreshed!')">Refresh</button>
+</flut-card>
+
+<flut-alert icon="bi bi-shield-check" title="Session Secured" description="All data encrypted" />
+
+<!-- 2. Two-Way Store Binding (Zero JavaScript) -->
+<input fc-model="username" placeholder="Type your name..." />
+<p>Hello, <span fc-bind="username">guest</span>!</p>
+
+<!-- 3. Conditional Visibility (with negation support) -->
+<div fc-show="username">Welcome back!</div>
+<div fc-show="!username">Please enter your name above.</div>
+
+<!-- 4. Declarative Actions & Navigation -->
+<button fc-click="Flut.toast('success', 'Saved!')">Quick Action</button>
+<button fc-go="home">Go Home</button>
+<button fc-toggle="mobile-menu">Toggle Menu</button>
+```
+
+### Reactive Directives Reference
+
+| Directive | Description | Example |
+| :--- | :--- | :--- |
+| `fc-model="key"` | Two-way data binding for `<input>`, `<textarea>`, `<select>`, `<checkbox>` | `<input fc-model="user" />` |
+| `fc-bind="key"` | Synchronizes text content with store key reactively | `<span fc-bind="user"></span>` |
+| `fc-show="key"` | Toggles visibility (`display: none`) based on truthiness (supports `!key`) | `<div fc-show="!user">Login</div>` |
+| `fc-go="route"` | Navigates to a hash route without manual `onclick` or JS | `<button fc-go="ejemplos">Demo</button>` |
+| `fc-toggle="id"` | Toggles element visibility by DOM ID | `<button fc-toggle="sidebar">Menu</button>` |
+| `fc-click="code"` | Evaluates safe inline helper calls on click | `<button fc-click="Flut.toast('Hi!')">` |
+
+## Unified `Flut` Global Helper
+
+Flutcom exposes a high-level `Flut` utility on `window` for straightforward state and UI operations:
+
+```javascript
+// Navigation
+Flut.go('home');
+
+// Reactive Store
+Flut.set('theme', 'dark');
+const theme = Flut.get('theme');
+Flut.watch('theme', (val) => console.log('Theme changed to', val));
+
+// UI Helpers
+Flut.toast('Changes saved successfully!');
+Flut.modal('login-dialog').open();
+Flut.modal('login-dialog').close();
+```
+
+## Per-Route Dynamic SEO
+
+Assign metadata directly to your routes in `flutcom.config.js`:
+
+```javascript
+export const routes = {
+  home: {
+    view        : "resources/views/public/home.html",
+    title       : "Home",
+    description : "Lightweight, zero-runtime-dependency SPA micro-framework.",
+  },
+  ejemplos: {
+    view        : "resources/views/public/ejemplos.html",
+    title       : "Examples & Components",
+    description : "Interactive gallery of modular Flutcom components.",
+  },
+};
+```
+
+Flutcom automatically synchronizes `<title>`, `<meta name="description">`, and Open Graph (`og:title`, `og:description`) tags on every navigation event.
+
+## Native Community Plugins (Zero-Code Standard)
+
+Flutcom features an isolated, modular plugin system inspired by Minecraft and WordPress:
+- **Dedicated Subfolder**: Each plugin lives in its own folder: `plugins/<name>/`.
+- **Strict Pair Convention**: Requires both `<name>.flutcom.js` (or `.fc.js`) and `<name>.flutcom.json` (or `.fc.json`). Folders missing either file are safely ignored.
+- **Zero-Code Configuration**: End users customize settings (durations, colors, toggles) via their `.json` file without modifying code.
+- **Closed but Unrestricted**: Plugins run in an encapsulated scope without polluting `window`, with lifecycle hooks (`init(app, config)`, `onNavigate(view, container)`) and declarative HTML attributes (`data-*`).
+- **Open-Source / Standalone Scripts**: Standard JS libraries and standalone scripts reside in `plugins/opensource/` or `plugins/` and are loaded via `resources[]` in `flutcom.config.js`.
+
+```html
+<!-- Example: Zero-JS countdown with native Timer plugin -->
+<div data-timer="60" data-format="mm:ss" class="text-xl font-bold"></div>
+```
+
+## AI-Native Architecture
+
+Flutcom is designed to be fully agent-friendly. The project includes a dedicated [`.agents/`](.agents/README.md) directory and universal rule files:
+- [AGENTS.md](AGENTS.md) — Root guide for any AI coding assistant.
+- [`.agents/rules/`](.agents/rules/) — Architecture, code style, and design system constraints.
+- [`.agents/skills/`](.agents/skills/) — Step-by-step recipes for adding routes, components, and plugins.
+- Built-in bridge support for **Antigravity**, **Cursor** (`.cursorrules`), **Claude Code** (`CLAUDE.md`), and **GitHub Copilot** (`.github/copilot-instructions.md`).
 
 ## Project Structure
 
-| Directory | Description |
-| --------- | ----------- |
-| [flutcom/](flutcom/) | Core framework engine and routing logic. |
-| [plugins/](plugins/) | Modular extensions and UI enhancements. |
-| [resources/](resources/) | Application views, partials, and components. |
-| [assets/](assets/) | Static resources including CSS and images. |
-| [index.html](index.html) | Main application entry point. |
+| Directory / File | Description |
+| :--- | :--- |
+| [flutcom/](flutcom/) | Core framework engine (`core.js`), global helper (`flut.js`), bootstrap (`main.js`). |
+| [flutcom.config.js](flutcom.config.js) | Central configuration for routes, metadata, shell partials, and plugins. |
+| [resources/views/](resources/views/) | Public and authenticated HTML view templates. |
+| [resources/partials/](resources/partials/) | Persistent layout partials (`header.html`, `footer.html`). |
+| [resources/components/](resources/components/) | Reusable modular components with slot support. |
+| [plugins/](plugins/) | Modular extensions (menus, modals, animations, responsive utils). |
+| [assets/](assets/) | Static CSS, icons, and native SVG logo. |
+| [.agents/](.agents/) | AI Agent rules, context, and operational skills. |
+| [index.html](index.html) | Single application entry point with declarative layout tags. |
 
 ## Documentation
 
-For detailed guides on routing, plugin development, and configuration, you can visit the integrated documentation at [flutcom.net/#docs](https://flutcom.net/#docs).
+Explore the interactive component sandbox and live examples at [flutcom.net/#ejemplos](https://flutcom.net/#ejemplos) or by running `npm run dev` locally.
 
 ## Contributing
 
@@ -105,4 +234,5 @@ New contributors are welcome! If you have ideas for improvements or find any iss
 ## License
 
 Flutcom is open-source software licensed under the [MIT License](LICENSE).
+
 

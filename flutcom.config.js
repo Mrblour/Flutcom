@@ -1,82 +1,121 @@
 /**
- * ═══════════════════════════════════════════════════════════════════════════
- *  MYAPP CONFIGURATION
- * ═══════════════════════════════════════════════════════════════════════════
- * 
- *  This is the main (and only) configuration file for your framework.
- *  Here you define routes, site metadata, and active plugins.
- * 
- *  Equivalent to vite.config.js / next.config.js / astro.config.mjs
+ * Flutcom Application Configuration
+ *
+ * Central configuration file for routes, metadata, shell partials, and plugins.
+ * Defines the core behavior and structure of the single-page application.
  */
 
-// ╭─────────────────────────────────────────────────────────────────────────╮
-// │ 1. SITE METADATA                                                        │
-// ╰─────────────────────────────────────────────────────────────────────────╯
+/**
+ * Site metadata and global routing defaults.
+ *
+ * @type {{
+ *   nombre: string,
+ *   autor: string,
+ *   version: string,
+ *   descripcion: string,
+ *   defaultView: string,
+ *   notFoundView: string
+ * }}
+ */
 export const site = {
   nombre      : "Flutcom",
   autor       : "yBlour",
-  version     : "1.0.0",
-  descripcion : "My ultra-fast, zero-dependency web application",
-  
-  // Initial view when loading the page (e.g., #home)
+  version     : "1.2.0",
+  descripcion : "Ultra-fast, zero-dependency micro SPA framework",
+
+  /** Default view loaded on root navigation (e.g., #home) */
   defaultView : "home",
-  
-  // Error view path (When a URL hash does not exist)
+
+  /** Fallback 404 error view path when a route does not exist */
   notFoundView: "resources/views/public/404.html",
 };
 
 
-// ╭─────────────────────────────────────────────────────────────────────────╮
-// │ 2. UI PARTIALS (MAIN STRUCTURE)                                         │
-// ╰─────────────────────────────────────────────────────────────────────────╯
-// These files are injected into the <div id="navbar"></div> and 
-// <div id="footer"></div> containers inside your index.html.
+/**
+ * Persistent shell partials (layout structure).
+ * Injected into matching container IDs (e.g. #navbar, #footer) in index.html.
+ *
+ * @type {Record<string, string>}
+ */
 export const partials = {
   navbar : "resources/partials/header.html",
   footer : "resources/partials/footer.html",
 };
 
 
-// ╭─────────────────────────────────────────────────────────────────────────╮
-// │ 3. PUBLIC ROUTES                                                        │
-// ╰─────────────────────────────────────────────────────────────────────────╯
-// Format: "hash" : "path/to/file.html"
-// Example: If the user visits #about, "views/about.html" will be loaded
+/**
+ * Public routes configuration.
+ *
+ * Supports two formats:
+ * - Rich format (recommended): Object with `view`, `title`, and `description` for per-route SEO.
+ * - Simple format: "hash": "path/to/view.html"
+ *
+ * @type {Record<string, { view: string, title?: string, description?: string } | string>}
+ */
 export const routes = {
-  home : "resources/views/public/home.html",
-  // about : "resources/views/public/about.html",
-  // contact : "resources/views/public/contact.html",
+  home: {
+    view        : "resources/views/public/home.html",
+    title       : "Home",
+    description : "Lightweight, zero-runtime-dependency SPA micro-framework.",
+  },
+  ejemplos: {
+    view        : "resources/views/public/ejemplos.html",
+    title       : "Examples & Components",
+    description : "Interactive gallery of modular Flutcom components.",
+  },
+  // about: {
+  //   view        : "resources/views/public/about.html",
+  //   title       : "About Us",
+  //   description : "Learn more about the team and project mission.",
+  // },
 };
 
 
-// ╭─────────────────────────────────────────────────────────────────────────╮
-// │ 4. AUTH ROUTES (PROTECTED) - Optional                                   │
-// ╰─────────────────────────────────────────────────────────────────────────╯
-// Same structure as 'routes', but intended for Login/Register views.
-// Use app.guard() in main.js to protect these routes.
+/**
+ * Protected and authentication routes (optional).
+ * Access rules can be enforced with app.guard() in flutcom/main.js.
+ *
+ * @type {Record<string, string>}
+ */
 export const authRoutes = {
   // login    : "resources/views/auth/login.html",
   // register : "resources/views/auth/register.html",
 };
 
 
-// ╭─────────────────────────────────────────────────────────────────────────╮
-// │ 5. GLOBAL PLUGINS & SCRIPTS                                             │
-// ╰─────────────────────────────────────────────────────────────────────────╯
-// CSS files (Tailwind, style.css) must go in index.html for performance
-// reasons. Only interactive scripts and modals are loaded here.
+/**
+ * Native Flutcom plugins (closed-environment, auto-loaded).
+ *
+ * Each entry must be the folder name of a plugin inside `plugins/`,
+ * which MUST contain both required files:
+ *   - `plugins/<name>/<name>.flutcom.js`  (or `<name>.fc.js`)
+ *   - `plugins/<name>/<name>.flutcom.json` (or `<name>.fc.json`)
+ *
+ * Plugins without both files will be ignored by the engine.
+ * For standalone `.js` scripts, use the `resources` array below instead.
+ *
+ * @type {string[]}
+ */
+export const plugins = [
+  "timer",
+  "menu",
+  "animations",
+  "responsive",
+];
+
+
+/**
+ * Global modular plugins and scripts.
+ * Register interactive JavaScript plugins and modular extensions here.
+ *
+ * Note: Core styling (e.g. style.css) should be linked in index.html for performance.
+ *
+ * @type {Array<{ type: "js" | "css", file: string }>}
+ */
 export const resources = [
-  
-  // ─── ESSENTIAL FRAMEWORK PLUGINS ───
-  { type: "js", file: "plugins/menu.js" },
+  // Standalone framework plugins / open-source scripts
   { type: "js", file: "plugins/modals.js" },
   // { type: "js", file: "plugins/responsive.js" },
-  
-  // ─── VISUAL EFFECTS & ANIMATIONS (Uncomment to use) ───
-  // { type: "js", file: "plugins/animations.js" },
-  // { type: "js", file: "plugins/premium-effects.js" },
-  // { type: "js", file: "plugins/liquid-glass.js" },
-  
-  // ─── YOUR CUSTOM PLUGINS ───
-  // { type: "js", file: "plugins/my-plugin.js" },
 ];
+
+

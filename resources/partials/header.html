@@ -1,30 +1,26 @@
-<header class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-4xl z-50 transition-all duration-300 rounded-full">
-  <div class="px-6 h-14 flex items-center justify-between">
+<header class="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b border-zinc-200/70">
+  <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
 
-    <!-- Logo & Brand -->
-    <a href="#home" data-view="home" class="flex items-center gap-2 text-[#1d1d1f] no-underline hover:opacity-70 transition-opacity group animate-apple-text">
-      <img src="assets/img/flutcom.svg" alt="MyApp" style="width:20px;height:20px;" class="invert opacity-90 group-hover:scale-110 transition-transform duration-300">
-      <span style="font-weight:600;font-size:0.95rem;letter-spacing:-0.02em;">MyApp</span>
+    <!-- Logo & Brand (Logo natural en negro, sin invert) -->
+    <a href="#home" data-view="home" class="flex items-center gap-2.5 text-zinc-900 no-underline hover:opacity-80 transition-opacity">
+      <img src="assets/img/flutcom.svg" alt="Flutcom Logo" class="w-6 h-6 object-contain" />
+      <span class="font-bold text-base tracking-tight text-zinc-900">Flutcom</span>
+      <span class="text-[11px] font-medium text-zinc-500 bg-zinc-100 border border-zinc-200 px-1.5 py-0.5 rounded-md">v1.1</span>
     </a>
 
-    <!-- Desktop Navigation -->
-    <nav class="hidden md:flex items-center gap-8 animate-apple-text delay-100">
-      <a href="#home" data-view="home" class="text-[13px] font-medium text-[#1d1d1f] opacity-70 hover:opacity-100 transition-opacity">Home</a>
+    <!-- Navigation Links -->
+    <nav class="flex items-center gap-6 text-sm font-medium text-zinc-600">
+      <a href="#home" data-view="home" class="text-zinc-600 hover:text-black transition-colors">
+        Home
+      </a>
+      <a href="#ejemplos" data-view="ejemplos" class="text-zinc-600 hover:text-black transition-colors">
+        Ejemplos
+      </a>
+      <a href="https://github.com/Mrblour/Flutcom" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-900 transition-colors flex items-center gap-1.5">
+        <i class="bi bi-github text-base"></i>
+        <span class="hidden sm:inline">GitHub</span>
+      </a>
     </nav>
 
-    <!-- Right Actions -->
-    <div class="flex items-center gap-4">
-      <!-- Hamburger Mobile -->
-      <button data-mobile-toggle class="md:hidden w-8 h-8 flex items-center justify-center text-[#1d1d1f]">
-        <i class="bi bi-list text-xl"></i>
-      </button>
-    </div>
-
   </div>
-
-  <!-- Mobile Navigation Dropdown -->
-  <nav data-mobile-menu hidden class="absolute top-16 left-0 w-full bg-white/90 backdrop-blur-3xl border border-black/5 rounded-3xl flex flex-col px-6 py-4 gap-4 transition-all shadow-lg">
-    <a href="#home" data-view="home" class="text-sm font-semibold text-[#1d1d1f]">Home</a>
-  </nav>
-
 </header>

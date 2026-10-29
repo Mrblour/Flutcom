@@ -1,0 +1,13 @@
+{
+  "name": "timer",
+  "version": "1.0.0",
+  "description": "Temporizadores y cuentas regresivas declarativas Zero-JS para Flutcom",
+  "author": "Comunidad Flutcom",
+  "enabled": true,
+  "options": {
+    "defaultDuration": 60,
+    "warningThreshold": 10,
+    "warningClass": "text-red-600 font-bold animate-pulse",
+    "endMessage": "¡Tiempo finalizado!"
+  }
+}

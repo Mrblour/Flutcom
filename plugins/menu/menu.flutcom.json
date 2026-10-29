@@ -1,0 +1,12 @@
+{
+  "name": "menu",
+  "version": "1.0.0",
+  "description": "Navegación SPA activa, control de menú móvil y scroll effect para Flutcom",
+  "author": "Comunidad Flutcom",
+  "enabled": true,
+  "options": {
+    "activeClass": "active",
+    "scrolledOffset": 10,
+    "persistActiveView": true
+  }
+}

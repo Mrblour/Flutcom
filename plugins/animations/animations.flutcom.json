@@ -1,0 +1,12 @@
+{
+  "name": "animations",
+  "version": "1.0.0",
+  "description": "Sistema de animaciones de entrada premium y revelado al hacer scroll basado en Intersection Observer",
+  "author": "Comunidad Flutcom",
+  "enabled": true,
+  "options": {
+    "threshold": 0.12,
+    "rootMargin": "0px 0px -50px 0px",
+    "staggerDelayMs": 100
+  }
+}

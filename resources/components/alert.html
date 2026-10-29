@@ -1,7 +1,10 @@
-<div class="p-5 rounded-2xl border border-zinc-800 bg-zinc-900/30 flex items-start gap-4">
-  <i class="{{ icon }} mt-0.5 text-lg"></i>
-  <div>
-    <h4 class="text-white text-sm font-bold mb-1 tracking-tight">{{ title }}</h4>
-    <p class="text-zinc-400 text-sm leading-relaxed">{{ description }}</p>
+<div class="p-5 rounded-2xl border border-zinc-200 bg-white shadow-sm flex items-start gap-4 transition-all hover:shadow-md">
+  <div class="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-800 flex-shrink-0">
+    <i class="{{ icon }} text-lg"></i>
+  </div>
+  <div class="flex-1">
+    <h4 class="text-zinc-900 text-sm font-bold mb-1 tracking-tight">{{ title }}</h4>
+    <p class="text-zinc-600 text-sm leading-relaxed">{{ description }}</p>
+    <div class="mt-2">{{ slot }}</div>
   </div>
 </div>

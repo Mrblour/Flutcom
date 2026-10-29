@@ -13,6 +13,7 @@
  * ║    · Guards de ruta (basados en funciones)               ║
  * ║    · Carga de recursos externos (CSS/JS)                 ║
  * ║    · Barra de progreso de navegación                     ║
+ * ║    · Sistema de Plugins Nativos (.flutcom.js / .fc.js)   ║
  * ╚══════════════════════════════════════════════════════════╝
  */
 
@@ -25,7 +26,7 @@ export class Flutcom {
    * @param {object}   options.routes             - { clave: 'ruta/a/vista.html' }
    * @param {object}  [options.authRoutes]        - Igual que routes (opcional)
    * @param {Array}   [options.resources]         - [{ type:'css'|'js', file:'...' }]
-   * @param {string}  [options.layoutPath]        - Ruta al layout base HTML
+   * @param {Array}   [options.plugins]           - ['timer', 'animations'] nombres de plugins nativos Flutcom
    */
   constructor({
     site,
@@ -33,6 +34,7 @@ export class Flutcom {
     routes,
     authRoutes  = {},
     resources   = [],
+    plugins     = [],
   }) {
     this._cfg      = site;
     this._partials = partials;
@@ -67,9 +69,15 @@ export class Flutcom {
 
     this._guards = {};
     this._404fn  = this._default404.bind(this);
-    
+
     // Caché global de componentes cargados
     this._componentCache = {};
+
+    // ─── Sistema de Plugins Nativos Flutcom ───
+    // Lista de nombres de plugins declarados en flutcom.config.js
+    this._pluginNames   = plugins;
+    // Instancias activas de plugins cargados correctamente
+    this._activePlugins = [];
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -128,6 +136,11 @@ export class Flutcom {
 
     this._fillConfigSlots();
     this._assignNavLinks();
+
+    // Cargar plugins nativos ANTES de iniciar el router
+    // para que estén listos cuando se cargue la primera vista
+    await this._loadFlutcomPlugins();
+
     this._initRouter();
     this._loadExternal(this._external);
   }
@@ -140,14 +153,15 @@ export class Flutcom {
     const resolve = async () => {
       const hash = window.location.hash.slice(1) || this._default;
 
-      if (this._guards[hash]) {
+      if (Object.prototype.hasOwnProperty.call(this._guards, hash)) {
         const { fn, redirectTo } = this._guards[hash];
         const allowed = await Promise.resolve(fn(hash));
         if (!allowed) { window.location.hash = redirectTo; return; }
       }
 
-      const viewPath = this._routes[hash];
-      viewPath ? await this._navigate(viewPath, hash) : await this._show404();
+      const route = this._resolveRoute(hash);
+      if (route) { this._currentRoute = route; await this._navigate(route.path, hash); }
+      else { await this._show404(); }
     };
 
     window.addEventListener('hashchange', resolve);
@@ -160,7 +174,7 @@ export class Flutcom {
       if (link.hasAttribute('data-fc-bound')) return;
 
       const view = link.getAttribute('data-view');
-      if (this._routes[view]) {
+      if (view && Object.prototype.hasOwnProperty.call(this._routes, view)) {
         link.addEventListener('click', e => {
           e.preventDefault();
           window.location.hash = view;
@@ -174,8 +188,22 @@ export class Flutcom {
   // NAVEGACIÓN + CICLO DE VIDA
   // ═══════════════════════════════════════════════════════════
 
+  _resolveRoute(hash) {
+    if (!hash || !Object.prototype.hasOwnProperty.call(this._routes, hash)) return null;
+    const r = this._routes[hash];
+    if (!r) return null;
+    if (typeof r === 'string') {
+      return { path: r, title: hash.charAt(0).toUpperCase() + hash.slice(1), description: this._cfg?.descripcion || '' };
+    }
+    return {
+      path        : r.view || r.path || '',
+      title       : r.title       || hash,
+      description : r.description || this._cfg?.descripcion || '',
+    };
+  }
+
   async _navigate(viewPath, viewName) {
-    const content = document.getElementById('content');
+    const content = this._getContainer('content');
     if (!content) return;
 
     await this._runHooks('beforeLeave', viewName, content);
@@ -197,8 +225,19 @@ export class Flutcom {
       this._assignNavLinks();
 
       await this._runHooks('afterEnter', viewName, content);
-      
-      // Emitir evento global para que los plugins se enteren del cambio de vista
+
+      // ─── Notificar a los plugins nativos del cambio de vista ─────────
+      for (const plugin of this._activePlugins) {
+        if (typeof plugin.onNavigate === 'function') {
+          try {
+            await Promise.resolve(plugin.onNavigate(viewName, content));
+          } catch (err) {
+            console.warn(`[Flutcom Plugin] Error en onNavigate de "${plugin.name || '?'}":`, err);
+          }
+        }
+      }
+
+      // Emitir evento global para que plugins externos también se enteren
       document.dispatchEvent(new CustomEvent('fc-view-loaded', { detail: { view: viewName } }));
     } catch (err) {
       console.error('[Flutcom] Error cargando vista:', err);
@@ -219,7 +258,7 @@ export class Flutcom {
   // ═══════════════════════════════════════════════════════════
 
   async _show404() {
-    const content = document.getElementById('content');
+    const content = this._getContainer('content');
     if (!content) return;
     this._progressEnd();
 
@@ -231,6 +270,7 @@ export class Flutcom {
         if (res.ok) {
           content.innerHTML = await res.text();
           await this._mountComponents(content);
+          this._bindDirectives(content);
           this._executeScripts(content);
           return;
         }
@@ -262,14 +302,44 @@ export class Flutcom {
   // LOADERS INTERNOS
   // ═══════════════════════════════════════════════════════════
 
-  async _loadHTML(id, file) {
+  /**
+   * Tags reservados de layout — NO son componentes.
+   * Se usan en index.html como shell de la SPA.
+   * Cualquier `<flut-*>` que esté en esta lista es ignorado
+   * por el pipeline de componentes (_mountComponents).
+   */
+  static get LAYOUT_TAGS() {
+    return new Set(['flut-navbar', 'flut-header', 'flut-main', 'flut-content', 'flut-footer']);
+  }
+
+  /**
+   * Resuelve contenedores principales del layout soportando:
+   * 1. Tags declarativos:  <flut-navbar>, <flut-main>, <flut-content>, <flut-footer>
+   * 2. Directivas:         [fc-partial="navbar"], [fc-main], [fc-content]
+   * 3. IDs estándar (retrocompat): id="navbar", id="content", id="footer"
+   */
+  _getContainer(name) {
+    if (name === 'content' || name === 'main') {
+      return document.querySelector('flut-main, flut-content, [fc-main], [fc-content], #content');
+    }
+    if (name === 'navbar' || name === 'header') {
+      return document.querySelector('flut-navbar, flut-header, [fc-partial="navbar"], [fc-partial="header"], #navbar');
+    }
+    if (name === 'footer') {
+      return document.querySelector('flut-footer, [fc-partial="footer"], #footer');
+    }
+    return document.getElementById(name) || document.querySelector(`flut-${name}, [fc-partial="${name}"]`);
+  }
+
+  async _loadHTML(target, file) {
     const vFile = this._versionUrl(file);
     const res = await fetch(vFile);
     if (!res.ok) throw new Error(`[Flutcom] No se pudo cargar: ${file} (${res.status})`);
-    const el = document.getElementById(id);
+    const el = (target instanceof Element) ? target : this._getContainer(target);
     if (el) {
       el.innerHTML = await res.text();
       await this._mountComponents(el);
+      this._bindDirectives(el);
       this._executeScripts(el);
     }
   }
@@ -290,51 +360,391 @@ export class Flutcom {
   }
 
   // ═══════════════════════════════════════════════════════════
-  // COMPONENTES (Nuevo Motor de Renderizado)
+  // SISTEMA DE PLUGINS NATIVOS FLUTCOM
+  // ═══════════════════════════════════════════════════════════
+  //
+  //  Cada plugin nativo Flutcom requiere OBLIGATORIAMENTE:
+  //    · plugins/<nombre>/<nombre>.flutcom.json  (o .fc.json)
+  //    · plugins/<nombre>/<nombre>.flutcom.js   (o .fc.js)
+  //
+  //  El motor:
+  //    1. Detecta la variante de extensión disponible (.flutcom / .fc)
+  //    2. Lee y valida el archivo JSON de configuración
+  //    3. Verifica que "enabled": true
+  //    4. Importa dinámicamente el módulo JS
+  //    5. Ejecuta plugin.init(app, config)
+  //    6. Registra plugin.onNavigate() para cada cambio de ruta SPA
+  //
+  //  Scripts JS sueltos en plugins/ siguen usando resources[] en config.
+  // ═══════════════════════════════════════════════════════════
+
+  /**
+   * Carga todos los plugins nativos declarados en `plugins[]` de flutcom.config.js.
+   * Valida el binomio de archivos obligatorio antes de activar cada plugin.
+   */
+  async _loadFlutcomPlugins() {
+    if (!this._pluginNames.length) return;
+
+    // Extensiones soportadas en orden de preferencia
+    const JS_EXTS   = ['.flutcom.js',   '.fc.js'];
+    const JSON_EXTS = ['.flutcom.json', '.fc.json'];
+
+    for (const name of this._pluginNames) {
+      const base = `plugins/${name}/${name}`;
+
+      // ─── 1. Detectar extensión JSON disponible ────────────────────
+      let configData = null;
+      let jsonFound  = false;
+
+      for (const ext of JSON_EXTS) {
+        try {
+          const res = await fetch(`${base}${ext}`);
+          if (res.ok) {
+            configData = await res.json();
+            jsonFound  = true;
+            break;
+          }
+        } catch { /* probar siguiente extensión */ }
+      }
+
+      if (!jsonFound || !configData) {
+        console.warn(
+          `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró archivo de configuración.\n` +
+          `  Esperado: plugins/${name}/${name}.flutcom.json  o  plugins/${name}/${name}.fc.json`
+        );
+        continue;
+      }
+
+      // ─── 2. Verificar que el plugin está habilitado ───────────────
+      if (configData.enabled === false) {
+        console.info(`[Flutcom Plugin] ✋ Plugin "${name}" está deshabilitado (enabled: false). Saltando.`);
+        continue;
+      }
+
+      // ─── 3. Detectar extensión JS disponible ─────────────────────
+      let pluginModule = null;
+      let jsFound      = false;
+
+      for (const ext of JS_EXTS) {
+        try {
+          const rawUrl = `${base}${ext}`;
+          const moduleUrl = new URL(rawUrl, window.location.origin + window.location.pathname).href;
+          pluginModule = await import(/* @vite-ignore */ moduleUrl);
+          jsFound = true;
+          break;
+        } catch { /* probar siguiente extensión */ }
+      }
+
+      if (!jsFound || !pluginModule) {
+        console.warn(
+          `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró el archivo JS.\n` +
+          `  Esperado: plugins/${name}/${name}.flutcom.js  o  plugins/${name}/${name}.fc.js`
+        );
+        continue;
+      }
+
+      // ─── 4. Obtener la instancia exportada por defecto ────────────
+      const plugin = pluginModule.default ?? pluginModule;
+
+      if (typeof plugin !== 'object' || plugin === null) {
+        console.warn(`[Flutcom Plugin] ⚠️ El módulo "${name}" no exporta un objeto válido como default.`);
+        continue;
+      }
+
+      // ─── 5. Ejecutar init() con la instancia de la app y la config ─
+      if (typeof plugin.init === 'function') {
+        try {
+          await Promise.resolve(plugin.init(this, configData));
+        } catch (err) {
+          console.error(`[Flutcom Plugin] ❌ Error en init() del plugin "${name}":`, err);
+          continue;
+        }
+      }
+
+      // ─── 6. Registrar como plugin activo ─────────────────────────
+      this._activePlugins.push(plugin);
+      console.info(`[Flutcom Plugin] ✅ Plugin "${name}" cargado correctamente.`);
+    }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // COMPONENTES v2 — Motor de Renderizado Mejorado
+  // ═══════════════════════════════════════════════════════════
+  //
+  //  Soporta 3 sintaxis (de más simple a más avanzada):
+  //
+  //  1. Shorthand   → <flut-alert icon="bi bi-check" title="Éxito" />
+  //  2. Genérico    → <flut-component name="alert" icon="..." title="..." />
+  //  3. Legacy      → <div fc-component="resources/components/alert.html"
+  //                        fc-props='{"icon":"...","title":"..."}'>
+  //                   </div>
+  //
+  //  Interpolación disponible en el template del componente:
+  //    {{ nombreProp }} → valor del atributo correspondiente
+  //    {{ slot }}       → HTML interno del elemento (contenido hijo)
   // ═══════════════════════════════════════════════════════════
 
   async _mountComponents(rootEl) {
-    const components = rootEl.querySelectorAll('[fc-component]');
-    if (!components.length) return;
 
-    for (const el of components) {
-      const path = el.getAttribute('fc-component');
-      const propsString = el.getAttribute('fc-props');
-      let props = {};
-      
-      try {
-        if (propsString) props = JSON.parse(propsString);
-      } catch (e) {
-        console.warn(`[Flutcom] Error parseando JSON en fc-props de: ${path}`);
+    // ─── Recopilar todos los elementos a procesar ──────────────────────────
+    const legacyEls     = [...rootEl.querySelectorAll('[fc-component]')];
+    const namedEls      = [...rootEl.querySelectorAll('flut-component[name]')];
+    const shorthandEls  = [...rootEl.querySelectorAll('*')].filter(el => {
+      const tag = el.tagName.toLowerCase();
+      // Excluir tags reservados de layout — no son componentes
+      return tag.startsWith('flut-') && tag !== 'flut-component' && !Flutcom.LAYOUT_TAGS.has(tag);
+    });
+
+    const allEls = [...legacyEls, ...namedEls, ...shorthandEls];
+    if (!allEls.length) return;
+
+    for (const el of allEls) {
+      const tag   = el.tagName.toLowerCase();
+      let path    = '';
+      let props   = {};
+      const slot  = el.innerHTML; // contenido hijo → {{ slot }}
+
+      // ─── 1. Shorthand: <flut-alert icon="..." title="..."> ──────────────
+      if (tag.startsWith('flut-') && tag !== 'flut-component') {
+        const compName = tag.slice(5); // quitar prefijo "flut-"
+        path = `resources/components/${compName}.html`;
+        for (const { name, value } of el.attributes) {
+          props[name] = value;
+        }
+
+      // ─── 2. Genérico: <flut-component name="alert" icon="..." title="...">
+      } else if (tag === 'flut-component') {
+        const compName = el.getAttribute('name');
+        if (!compName) continue;
+        path = `resources/components/${compName}.html`;
+        for (const { name, value } of el.attributes) {
+          if (name !== 'name') props[name] = value;
+        }
+
+      // ─── 3. Legacy: <div fc-component="..." fc-props='{...}'> ────────────
+      } else {
+        path = el.getAttribute('fc-component');
+        const propsStr = el.getAttribute('fc-props');
+        if (propsStr) {
+          try { props = JSON.parse(propsStr); }
+          catch { console.warn(`[Flutcom] fc-props JSON inválido en: ${path}`); }
+        }
       }
 
-      // Descargar HTML (o usar caché de la instancia)
+      // ─── Cargar template (con caché) ────────────────────────────────────
       if (this._componentCache[path] === undefined) {
         try {
           const vPath = this._versionUrl(path);
-          const res = await fetch(vPath);
-          this._componentCache[path] = res.ok ? await res.text() : '';
+          const res   = await fetch(vPath);
+          this._componentCache[path] = res.ok ? await res.text() : null;
         } catch {
-          this._componentCache[path] = '';
+          this._componentCache[path] = null;
         }
       }
 
-      let html = this._componentCache[path];
-
-      // Reemplazar {{ variables }}
-      if (html) {
-        for (const [key, value] of Object.entries(props)) {
-          const regex = new RegExp(`{{\\s*${key}\\s*}}`, 'g');
-          html = html.replace(regex, value);
-        }
+      const template = this._componentCache[path];
+      if (!template) {
+        console.warn(`[Flutcom] No se pudo cargar el componente: ${path}`);
+        el.remove();
+        continue;
       }
 
-      el.innerHTML = html;
-      el.removeAttribute('fc-component'); // evitar reprocesamiento
+      // ─── Interpolar: {{ slot }} y {{ propiedades }} ───────────────────────
+      let html = template.replace(/\{\{\s*slot\s*\}\}/g, slot);
+      for (const [key, value] of Object.entries(props)) {
+        const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        html = html.replace(new RegExp(`{{\\s*${escapedKey}\\s*}}`, 'g'), this._escapeHtml(value));
+      }
 
-      // Recursividad: procesar si el componente inyectado tiene sub-componentes
-      await this._mountComponents(el);
+      // ─── Inyectar y recursar ─────────────────────────────────────────────
+      if (tag === 'flut-component' || tag.startsWith('flut-')) {
+        // Elementos custom: reemplazar el tag por el HTML renderizado
+        const temp = document.createElement('div');
+        temp.innerHTML = html;
+        await this._mountComponents(temp); // procesar sub-componentes primero
+        this._executeScripts(temp);
+        el.replaceWith(...Array.from(temp.childNodes));
+      } else {
+        // Legacy: conservar el elemento contenedor, reemplazar su contenido
+        el.removeAttribute('fc-component');
+        el.removeAttribute('fc-props');
+        el.innerHTML = html;
+        await this._mountComponents(el);
+      }
     }
+  }
+
+  // ═══════════════════════════════════════════════════════════
+  // DIRECTIVAS REACTIVAS DECLARATIVAS
+  // ═══════════════════════════════════════════════════════════
+  //
+  //  fc-bind="clave"      → Inyecta el valor del store y se actualiza reactivamente.
+  //  fc-model="clave"     → Two-way data binding para inputs, textarea, select y checkbox.
+  //  fc-show="clave"      → Muestra/oculta según el store (soporta prefijo ! para negar).
+  //  fc-go="ruta"         → Navega a una ruta al hacer clic sin JS.
+  //  fc-toggle="id"       → Alterna la visibilidad del elemento con ese ID.
+  //  fc-click="action"    → Ejecuta código/helpers al hacer clic.
+  // ═══════════════════════════════════════════════════════════
+
+  _bindDirectives(rootEl) {
+    if (!rootEl) return;
+
+    const getAttr = (el, name) => el.getAttribute(`fc-${name}`) || el.getAttribute(`flut-${name}`);
+
+    // ─── 1. fc-bind: One-way binding al DOM ─────────────────────────────────
+    const bindEls = rootEl.querySelectorAll('[fc-bind], [flut-bind]');
+    bindEls.forEach(el => {
+      const key = getAttr(el, 'bind');
+      if (!key) return;
+
+      const update = () => {
+        const val = this.store.get(key);
+        if (val !== undefined && val !== null) {
+          el.textContent = val;
+        }
+      };
+
+      update();
+      this.store.subscribe((changedKey, newVal) => {
+        if (!document.contains(el)) return;
+        if (changedKey === key) {
+          el.textContent = (newVal !== undefined && newVal !== null) ? newVal : '';
+        }
+      });
+    });
+
+    // ─── 2. fc-model: Two-way binding para formularios ──────────────────────
+    const modelEls = rootEl.querySelectorAll('[fc-model], [flut-model]');
+    modelEls.forEach(el => {
+      const key = getAttr(el, 'model');
+      if (!key) return;
+
+      const isCheckbox = el.type === 'checkbox';
+      const isRadio    = el.type === 'radio';
+
+      // Inicializar valor desde store
+      const initialVal = this.store.get(key);
+      if (initialVal !== undefined) {
+        if (isCheckbox) {
+          el.checked = Boolean(initialVal);
+        } else if (isRadio) {
+          el.checked = (String(initialVal) === String(el.value));
+        } else {
+          el.value = initialVal ?? '';
+        }
+      }
+
+      // Input → Store
+      const onInput = () => {
+        if (isCheckbox) {
+          this.store.set(key, el.checked);
+        } else if (isRadio) {
+          if (el.checked) this.store.set(key, el.value);
+        } else {
+          this.store.set(key, el.value);
+        }
+      };
+
+      el.addEventListener(isCheckbox || isRadio || el.tagName === 'SELECT' ? 'change' : 'input', onInput);
+
+      // Store → Input
+      this.store.subscribe((changedKey, newVal) => {
+        if (!document.contains(el)) return;
+        if (changedKey === key) {
+          if (isCheckbox) {
+            el.checked = Boolean(newVal);
+          } else if (isRadio) {
+            el.checked = (String(newVal) === String(el.value));
+          } else {
+            if (el.value !== String(newVal ?? '')) {
+              el.value = newVal ?? '';
+            }
+          }
+        }
+      });
+    });
+
+    // ─── 3. fc-show: Visibilidad condicional ─────────────────────────────────
+    const showEls = rootEl.querySelectorAll('[fc-show], [flut-show]');
+    showEls.forEach(el => {
+      const expr = (getAttr(el, 'show') || '').trim();
+      if (!expr) return;
+
+      const isNegated = expr.startsWith('!');
+      const key = isNegated ? expr.slice(1).trim() : expr;
+
+      const update = () => {
+        const val = this.store.get(key);
+        let visible = Boolean(val);
+        if (isNegated) visible = !visible;
+
+        if (visible) {
+          el.hidden = false;
+          if (el.style.display === 'none') el.style.display = '';
+        } else {
+          el.hidden = true;
+          el.style.display = 'none';
+        }
+      };
+
+      update();
+      this.store.subscribe(changedKey => {
+        if (!document.contains(el)) return;
+        if (changedKey === key) update();
+      });
+    });
+
+    // ─── 4. fc-go: Navegación declarativa ────────────────────────────────────
+    const goEls = rootEl.querySelectorAll('[fc-go], [flut-go]');
+    goEls.forEach(el => {
+      const route = getAttr(el, 'go');
+      if (!route) return;
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        window.location.hash = route;
+      });
+    });
+
+    // ─── 5. fc-toggle: Alternar visibilidad de elemento por ID ───────────────
+    const toggleEls = rootEl.querySelectorAll('[fc-toggle], [flut-toggle]');
+    toggleEls.forEach(el => {
+      const targetId = getAttr(el, 'toggle');
+      if (!targetId) return;
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.getElementById(targetId);
+        if (target) {
+          const isHidden = target.hidden || window.getComputedStyle(target).display === 'none';
+          target.hidden = !isHidden;
+          target.style.display = isHidden ? '' : 'none';
+        }
+      });
+    });
+
+    // ─── 6. fc-click: Acción declarativa al hacer clic ───────────────────────
+    const clickEls = rootEl.querySelectorAll('[fc-click], [flut-click]');
+    clickEls.forEach(el => {
+      const action = getAttr(el, 'click');
+      if (!action) return;
+      el.style.cursor = 'pointer';
+      el.addEventListener('click', e => {
+        try {
+          new Function('e', 'Flut', 'app', action)(e, window.Flut, this);
+        } catch (err) {
+          console.warn('[Flutcom] Error evaluando fc-click:', action, err);
+        }
+      });
+    });
+  }
+
+  /**
+   * Método público para procesar directivas en cualquier contenedor DOM.
+   * @param {HTMLElement} [container=document.body]
+   */
+  bind(container = document.body) {
+    this._bindDirectives(container);
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -408,6 +818,18 @@ export class Flutcom {
     if (sitio && this._cfg.nombre)  sitio.textContent = this._cfg.nombre;
     const pill = document.getElementById('app-version-pill');
     if (pill  && this._cfg.version) pill.textContent  = `v${this._cfg.version}`;
+  }
+
+  /** Escapa entidades HTML para mitigar inyecciones de código (XSS) */
+  _escapeHtml(val) {
+    if (val === null || val === undefined) return '';
+    return String(val).replace(/[&<>"']/g, m => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[m]));
   }
 
   _wait(ms) { return new Promise(r => setTimeout(r, ms)); }

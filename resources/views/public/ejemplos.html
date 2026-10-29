@@ -1,0 +1,836 @@
+<main class="min-h-screen text-[#1a1a1a] font-sans pt-24 pb-28 px-4 sm:px-6 relative"
+  style="background-color: #f2eee5; background-image: linear-gradient(to right, rgba(0,0,0,0.055) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 32px 32px;">
+
+  <div class="max-w-4xl mx-auto space-y-16">
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- HERO POSTER: SITES FOR DEVELOPERS (PORTADA EDITORIAL)         -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8 overflow-hidden">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <a href="https://flutcom.net" target="_blank" class="hover:text-zinc-900 transition-colors">flutcom.net</a>
+      </div>
+
+      <!-- Poster Big Title -->
+      <div class="text-center space-y-2 pt-2">
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-zinc-950 uppercase leading-none">
+          Sites <span class="text-rose-600">For</span><br/>Developers
+        </h1>
+        <p class="text-sm sm:text-base font-semibold text-zinc-600 pt-2 tracking-wide">
+          Flutcom SPA Framework • Pure Vanilla ES Modules & Zero Dependencies
+        </p>
+      </div>
+
+      <!-- Poster Visual Showcase (MacBook Mockup Image) -->
+      <div class="relative rounded-3xl overflow-hidden border border-black/5 shadow-2xl bg-white max-w-2xl mx-auto group">
+        <img src="assets/img/flutcom_laptop_mockup.jpg" 
+             alt="Flutcom Sites For Developers Laptop Mockup"
+             class="w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+
+      <!-- Poster Caption -->
+      <p class="text-center text-sm sm:text-base text-zinc-700 font-medium max-w-lg mx-auto">
+        Transform your static websites into blazing-fast single page applications with reactive state and dynamic components.
+      </p>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-1">
+        <button onclick="Flut.go('home')"
+          class="px-5 py-2.5 text-xs sm:text-sm font-bold text-zinc-800 bg-white border border-zinc-300 rounded-2xl hover:bg-zinc-50 transition-all shadow-sm inline-flex items-center gap-2 cursor-pointer">
+          <i class="bi bi-arrow-left"></i> Volver a Home
+        </button>
+        <button onclick="Flut.toast('success', '¡Colección de ejemplos guardada!')"
+          class="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-zinc-900 rounded-2xl hover:bg-zinc-800 transition-all shadow-md inline-flex items-center gap-2 cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> Save for later
+        </button>
+      </div>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-400 border border-black/10 flex items-center justify-center font-bold text-zinc-900 shadow-sm text-xs">
+            yB
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">@yBlour</span>
+            <span class="font-bold text-zinc-900">Flutcom Creator</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Guardado para después')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill text-zinc-900"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 1 POSTER: SHORTHAND COMPONENT &lt;flut-alert&gt;       -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-indigo-600 font-bold">&lt;flut-alert&gt;</span>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase">
+          IconKitchen &amp; Alerts
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Declarative Custom Tags • Zero JSON Parsing
+        </p>
+      </div>
+
+      <!-- Interactive Laptop / Screen Mockup Frame -->
+      <div class="rounded-3xl border border-black/10 bg-zinc-950 text-white p-5 sm:p-7 shadow-2xl space-y-5">
+        
+        <!-- Screen Header / Window Dots -->
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-3 text-xs text-zinc-400">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500 inline-block"></span>
+            <span class="ml-2 font-mono text-[11px] text-zinc-400">alert-demo.html</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-mono text-[10px] font-bold">
+            v2 Native Tag
+          </span>
+        </div>
+
+        <!-- Code Block -->
+        <pre class="font-mono text-xs sm:text-sm text-zinc-200 overflow-x-auto leading-relaxed"><code>&lt;flut-alert 
+  icon="bi bi-shield-check" 
+  title="Seguridad Verificada" 
+  description="Sesión protegida con cifrado SSL nativo."&gt;
+&lt;/flut-alert&gt;</code></pre>
+
+        <!-- Live Render Inside Frame -->
+        <div class="pt-4 border-t border-zinc-800/80 space-y-2">
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block">Resultado en vivo dentro de tu app:</span>
+          <!-- COMPONENTE REAL DE FLUTCOM -->
+          <flut-alert 
+            icon="bi bi-shield-check" 
+            title="Seguridad Verificada" 
+            description="Sesión protegida con cifrado SSL nativo.">
+          </flut-alert>
+        </div>
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm text-zinc-600 font-medium max-w-lg mx-auto">
+        This component dynamically compiles into <code class="bg-black/5 px-2 py-0.5 rounded text-zinc-900 font-mono text-xs font-semibold">resources/components/alert.html</code> using standard HTML props.
+      </p>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-indigo-500 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-code-slash"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Flutcom UI</span>
+            <span class="font-bold text-zinc-900">Custom Tags</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Código copiado')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 2 POSTER: MOBILE SHOWCASE (PHONE MOCKUP POSTER)      -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8 overflow-hidden">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-emerald-600 font-bold">Mobile Engineering</span>
+      </div>
+
+      <!-- Poster Title -->
+      <div class="text-center space-y-2">
+        <h2 class="text-4xl sm:text-6xl font-black tracking-tight text-zinc-950 uppercase leading-tight">
+          For The <span class="text-purple-600">Innovators</span>,<br/>Builders &amp; Creators
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          The art of mobile engineering • Build. Launch. Scale.
+        </p>
+      </div>
+
+      <!-- Poster Mobile Mockup Image -->
+      <div class="relative rounded-3xl overflow-hidden border border-black/5 shadow-2xl bg-white max-w-md mx-auto group">
+        <img src="assets/img/flutcom_phone_mockup.jpg" 
+             alt="Flutcom Mobile Dashboard Mockup"
+             class="w-full h-auto object-cover transform group-hover:scale-[1.02] transition-transform duration-500" />
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm sm:text-base text-zinc-700 font-medium max-w-lg mx-auto">
+        Build responsive dashboards, progressive web apps, and native-feeling interfaces without the bloat of heavy runtimes.
+      </p>
+
+      <!-- Interactive Button -->
+      <div class="text-center">
+        <button fc-click="Flut.toast('success', '¡Acción disparada con directiva fc-click!')"
+          class="px-5 py-2.5 text-xs sm:text-sm font-bold text-white bg-zinc-950 hover:bg-zinc-800 rounded-2xl transition-all shadow-md inline-flex items-center gap-2 cursor-pointer">
+          <i class="bi bi-phone-fill"></i> Probar Directiva Mobile
+        </button>
+      </div>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-phone"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Responsive</span>
+            <span class="font-bold text-zinc-900">Mobile Ready</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Póster guardado')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 3 POSTER: SLOTS (DYNAMIC CHILD CONTENT)              -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-purple-600 font-bold">&lbrace;&lbrace; slot &rbrace;&rbrace;</span>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase">
+          Master Your <span class="text-purple-600">Skills</span>
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Component Slots • Dynamic Children
+        </p>
+      </div>
+
+      <!-- Mockup Window -->
+      <div class="rounded-3xl border border-black/10 bg-zinc-950 text-white p-5 sm:p-7 shadow-2xl space-y-5">
+        <div class="flex items-center justify-between border-b border-zinc-800 pb-3 text-xs text-zinc-400">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+            <span class="ml-2 font-mono text-[11px]">slots-demo.html</span>
+          </div>
+          <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold">
+            Slot Injection
+          </span>
+        </div>
+
+        <pre class="font-mono text-xs sm:text-sm text-zinc-200 overflow-x-auto leading-relaxed"><code>&lt;flut-alert icon="bi bi-info-circle-fill" title="Actualización Disponible"&gt;
+  &lt;div class="flex items-center gap-2 mt-2"&gt;
+    &lt;button onclick="Flut.toast('success', '¡Actualizado!')" 
+            class="px-3 py-1 bg-zinc-900 text-white rounded-lg text-xs font-bold"&gt;
+      Actualizar
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/flut-alert&gt;</code></pre>
+
+        <!-- Live Render -->
+        <div class="pt-4 border-t border-zinc-800/80 space-y-2">
+          <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block">Render con contenido inyectado:</span>
+          <flut-alert icon="bi bi-info-circle-fill" title="Actualización Disponible"
+            description="Hay una nueva versión de Flutcom lista para instalar.">
+            <div class="flex items-center gap-2 mt-2">
+              <button onclick="Flut.toast('success', '¡Actualizado con éxito desde el slot!')"
+                class="px-3.5 py-1.5 bg-zinc-900 text-white rounded-xl text-xs font-bold hover:bg-zinc-800 transition-colors shadow-sm cursor-pointer">
+                Actualizar Ahora
+              </button>
+              <button onclick="Flut.go('home')"
+                class="text-xs text-zinc-500 hover:text-zinc-900 underline bg-transparent border-0 cursor-pointer">
+                Ver notas
+              </button>
+            </div>
+          </flut-alert>
+        </div>
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm text-zinc-600 font-medium max-w-lg mx-auto">
+        Any HTML placed inside the component tag is compiled straight into the <code class="bg-black/5 px-1.5 py-0.5 rounded font-mono text-xs text-zinc-900 font-bold">&#123;&#123; slot &#125;&#125;</code> placeholder.
+      </p>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-layers-fill"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Architecture</span>
+            <span class="font-bold text-zinc-900">Slots v2</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Guardado para después')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 4 POSTER: REACTIVE DIRECTIVES (ZERO JAVASCRIPT)      -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-sky-600 font-bold">fc-model &amp; fc-bind</span>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase">
+          Zero-JS <span class="text-sky-600">Reactivity</span>
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Two-Way State Binding Directly in HTML
+        </p>
+      </div>
+
+      <!-- Code & Interactive Split Frame -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        
+        <!-- Left: Code -->
+        <div class="rounded-3xl border border-black/10 bg-zinc-950 text-white p-5 sm:p-6 shadow-2xl space-y-4 font-mono text-xs">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3 text-zinc-400">
+            <span>reactive-view.html</span>
+            <span class="text-sky-400 font-bold">HTML Puro</span>
+          </div>
+          <pre class="overflow-x-auto leading-relaxed text-zinc-300"><code>&lt;!-- Two-Way Binding --&gt;
+&lt;input fc-model="userName" 
+       placeholder="Tu nombre..." /&gt;
+
+&lt;!-- Reactividad en vivo --&gt;
+&lt;p&gt;¡Hola, &lt;span fc-bind="userName"&gt;invitado&lt;/span&gt;!&lt;/p&gt;
+
+&lt;!-- Condicional afirmativo e inverso --&gt;
+&lt;input type="checkbox" fc-model="activo" /&gt;
+&lt;div fc-show="activo"&gt;Activado 🎉&lt;/div&gt;
+&lt;div fc-show="!activo"&gt;Desactivado 😴&lt;/div&gt;
+
+&lt;!-- Click declarativo --&gt;
+&lt;button fc-click="Flut.toast('info', '¡Listo!')"&gt;
+  Toast
+&lt;/button&gt;</code></pre>
+        </div>
+
+        <!-- Right: Interactive Sandbox -->
+        <div class="rounded-3xl border border-zinc-300/80 bg-white p-5 sm:p-6 shadow-xl space-y-4 flex flex-col justify-between">
+          <div class="space-y-4">
+            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest block">Sandbox reactivo en tiempo real:</span>
+            
+            <!-- Input -->
+            <div>
+              <label class="block text-xs font-bold text-zinc-700 uppercase tracking-wider mb-1.5">
+                Escribe con <code class="text-sky-600 font-mono">fc-model="userName"</code>:
+              </label>
+              <input type="text" fc-model="userName" placeholder="Escribe tu nombre aquí..."
+                class="w-full px-4 py-2.5 rounded-xl border border-zinc-300 bg-zinc-50/50 text-sm text-zinc-900 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all shadow-sm">
+            </div>
+
+            <!-- Output -->
+            <div class="p-3.5 rounded-xl bg-sky-50 border border-sky-100 flex items-center gap-3">
+              <span class="w-8 h-8 rounded-lg bg-sky-600 text-white flex items-center justify-center font-bold text-sm">
+                <i class="bi bi-person-fill"></i>
+              </span>
+              <div class="text-sm">
+                <span class="text-zinc-500 text-xs">Escuchando con <code class="font-mono text-zinc-700 font-bold">fc-bind="userName"</code>:</span>
+                <div class="font-bold text-zinc-900 text-base">
+                  ¡Hola, <span fc-bind="userName" class="text-sky-600 underline decoration-sky-300">escribe arriba</span>!
+                </div>
+              </div>
+            </div>
+
+            <!-- Checkbox & fc-show with ! -->
+            <div class="pt-2 border-t border-zinc-100 space-y-2">
+              <label class="inline-flex items-center gap-2 text-xs font-bold text-zinc-700 cursor-pointer select-none">
+                <input type="checkbox" fc-model="activo" class="w-4 h-4 rounded text-sky-600 focus:ring-sky-500 border-zinc-300">
+                <span>Alternar condición con <code class="font-mono font-bold">fc-model="activo"</code></span>
+              </label>
+
+              <div fc-show="activo" class="p-3 rounded-xl bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shadow-sm">
+                <i class="bi bi-check-circle-fill"></i> ¡Estado activo con fc-show="activo"!
+              </div>
+              <div fc-show="!activo" class="p-3 rounded-xl bg-zinc-100 text-zinc-600 text-xs flex items-center gap-2">
+                <i class="bi bi-moon-stars-fill text-zinc-400"></i> Condición invertida fc-show="!activo" (desmarcado).
+              </div>
+            </div>
+          </div>
+
+          <!-- Declarative actions -->
+          <div class="pt-3 border-t border-zinc-100 flex flex-wrap gap-2">
+            <button fc-click="Flut.toast('info', '¡Acción disparada con directiva fc-click!')"
+              class="px-3 py-1.5 rounded-xl bg-sky-600 text-white text-xs font-bold hover:bg-sky-500 transition-colors shadow-sm inline-flex items-center gap-1.5 cursor-pointer">
+              <i class="bi bi-lightning-fill"></i> fc-click Toast
+            </button>
+            <button fc-go="home" class="px-3 py-1.5 rounded-xl bg-zinc-900 text-white text-xs font-bold hover:bg-zinc-800 transition-colors shadow-sm inline-flex items-center gap-1.5 cursor-pointer">
+              <i class="bi bi-house"></i> fc-go="home"
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm text-zinc-600 font-medium max-w-lg mx-auto">
+        State synchronization occurs directly via Flutcom's internal store without requiring a virtual DOM or build steps.
+      </p>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-lightning"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Directives</span>
+            <span class="font-bold text-zinc-900">Zero JS</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Guardado para después')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 5 POSTER: DYNAMIC PER-ROUTE SEO INSPECTOR            -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-teal-600 font-bold">Per-Route SEO</span>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase">
+          Dynamic <span class="text-teal-600">Per-Route</span> SEO
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Automatic Head &amp; Open Graph Management
+        </p>
+      </div>
+
+      <!-- SEO Inspector Frame -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        
+        <!-- Config file mockup -->
+        <div class="rounded-3xl border border-black/10 bg-zinc-950 text-white p-5 sm:p-6 shadow-2xl space-y-4 font-mono text-xs">
+          <div class="flex items-center justify-between border-b border-zinc-800 pb-3 text-zinc-400">
+            <span>flutcom.config.js</span>
+            <span class="text-teal-400 font-bold">Ruta Enriquecida</span>
+          </div>
+          <pre class="overflow-x-auto leading-relaxed text-zinc-300"><code>export const routes = {
+  ejemplos: {
+    view        : "resources/views/public/ejemplos.html",
+    title       : "Examples & Components",
+    description : "Interactive gallery of modular Flutcom components.",
+  },
+};</code></pre>
+        </div>
+
+        <!-- Live DOM Meta Inspector -->
+        <div class="rounded-3xl border border-zinc-300/80 bg-white p-5 sm:p-6 shadow-xl space-y-3 font-mono text-xs flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">Valores en &lt;head&gt; ahora mismo:</span>
+              <button onclick="actualizarInspectorSeo(); Flut.toast('success', '¡Inspector SEO actualizado!');"
+                class="text-[11px] font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 px-2.5 py-1 rounded-lg border border-teal-200 transition-colors inline-flex items-center gap-1 cursor-pointer font-sans">
+                <i class="bi bi-arrow-repeat"></i> Actualizar
+              </button>
+            </div>
+
+            <div>
+              <span class="text-zinc-400 block text-[10px] uppercase font-bold tracking-wider mb-1">document.title</span>
+              <div id="seo-title-val" class="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200 font-bold text-zinc-900 break-words">
+                Cargando...
+              </div>
+            </div>
+
+            <div>
+              <span class="text-zinc-400 block text-[10px] uppercase font-bold tracking-wider mb-1">meta[name="description"]</span>
+              <div id="seo-desc-val" class="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200 text-zinc-700 break-words">
+                Cargando...
+              </div>
+            </div>
+
+            <div>
+              <span class="text-zinc-400 block text-[10px] uppercase font-bold tracking-wider mb-1">meta[property="og:title"]</span>
+              <div id="seo-og-title-val" class="p-2.5 bg-zinc-50 rounded-xl border border-zinc-200 text-zinc-700 break-words">
+                Cargando...
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-2 font-sans">
+            <button fc-go="home" class="w-full py-2 rounded-xl bg-zinc-900 text-white font-bold text-xs hover:bg-zinc-800 transition-colors inline-flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+              <i class="bi bi-arrow-right-circle"></i> Navegar a #home y ver cómo cambia la pestaña
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm text-zinc-600 font-medium max-w-lg mx-auto">
+        Every hash transition executes Flutcom's lifecycle hook, dynamically updating title tags and social preview crawlers.
+      </p>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-globe"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">SEO Engine</span>
+            <span class="font-bold text-zinc-900">Per-Route Meta</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Guardado para después')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- EJEMPLO 6 POSTER: GLOBAL HELPER Flut.* (INTERACTIVE TOASTS)  -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8">
+      
+      <!-- Poster Header -->
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <span class="font-mono text-amber-600 font-bold">window.Flut API</span>
+      </div>
+
+      <!-- Title -->
+      <div class="text-center space-y-1">
+        <h2 class="text-4xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase">
+          Global <span class="text-amber-500">Flut</span> Helper
+        </h2>
+        <p class="text-xs sm:text-sm font-semibold text-zinc-500 uppercase tracking-widest">
+          Universal Store • Native Toasts • Navigation
+        </p>
+      </div>
+
+      <!-- Grid Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- Toast Actions -->
+        <div class="bg-white rounded-2xl p-5 border border-black/10 shadow-md space-y-3">
+          <div class="flex items-center gap-2 text-zinc-900 font-bold text-sm">
+            <i class="bi bi-bell-fill text-amber-500"></i> Toasts Nativos
+          </div>
+          <p class="text-xs text-zinc-500 leading-relaxed">
+            Ejecuta <code class="text-zinc-900 font-mono font-bold">Flut.toast(tipo, mensaje)</code> desde cualquier parte.
+          </p>
+          <div class="flex flex-col gap-2 pt-2">
+            <button onclick="Flut.toast('success', '¡Operación guardada con éxito!')"
+              class="w-full py-2 px-3 text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm">
+              <i class="bi bi-check-circle"></i> Toast Éxito
+            </button>
+            <button onclick="Flut.toast('error', 'Ocurrió un error inesperado.')"
+              class="w-full py-2 px-3 text-xs font-bold bg-rose-600 hover:bg-rose-500 text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm">
+              <i class="bi bi-x-circle"></i> Toast Error
+            </button>
+            <button onclick="Flut.toast('info', 'Tienes novedades disponibles.')"
+              class="w-full py-2 px-3 text-xs font-bold bg-zinc-900 hover:bg-zinc-800 text-white rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-sm">
+              <i class="bi bi-info-circle"></i> Toast Info
+            </button>
+          </div>
+        </div>
+
+        <!-- Store Actions -->
+        <div class="bg-white rounded-2xl p-5 border border-black/10 shadow-md space-y-3">
+          <div class="flex items-center gap-2 text-zinc-900 font-bold text-sm">
+            <i class="bi bi-database-fill text-sky-500"></i> Store Reactivo
+          </div>
+          <p class="text-xs text-zinc-500 leading-relaxed">
+            Manipula el estado con <code class="text-zinc-900 font-mono font-bold">Flut.set()</code> y obsérvalo reactivamente.
+          </p>
+          <div class="bg-zinc-100 rounded-xl p-3 border border-zinc-200 text-center">
+            <span class="text-[10px] text-zinc-400 uppercase tracking-widest block font-bold mb-0.5">Clicks en Store</span>
+            <span id="demo-contador" class="text-3xl font-black text-sky-600 font-mono">0</span>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button id="btn-sumar"
+              class="flex-1 py-2 text-xs font-bold bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl transition-all cursor-pointer shadow-sm">
+              + 1 Click
+            </button>
+            <button id="btn-reset"
+              class="px-3 py-2 text-xs font-bold text-zinc-600 hover:text-zinc-900 rounded-xl bg-zinc-200 hover:bg-zinc-300 transition-all cursor-pointer">
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Actions -->
+        <div class="bg-white rounded-2xl p-5 border border-black/10 shadow-md space-y-3">
+          <div class="flex items-center gap-2 text-zinc-900 font-bold text-sm">
+            <i class="bi bi-signpost-2-fill text-purple-500"></i> SPA Routing
+          </div>
+          <p class="text-xs text-zinc-500 leading-relaxed">
+            Transiciones suaves de vista sin recarga con <code class="text-zinc-900 font-mono font-bold">Flut.go('hash')</code>.
+          </p>
+          <div class="space-y-2 pt-2">
+            <button onclick="Flut.go('home')"
+              class="w-full py-2.5 px-3 text-xs font-bold bg-zinc-900 text-white hover:bg-zinc-800 rounded-xl transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+              <i class="bi bi-house-door-fill"></i> Ir a Inicio (Flut.go('home'))
+            </button>
+            <p class="text-[11px] text-zinc-500 text-center">
+              Vista activa: <span class="font-mono text-zinc-800 font-bold">#ejemplos</span>
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Caption -->
+      <p class="text-center text-sm text-zinc-600 font-medium max-w-lg mx-auto">
+        Universal helpers are globally exposed on <code class="bg-black/5 px-2 py-0.5 rounded text-zinc-900 font-mono text-xs font-semibold">window.Flut</code> for instant convenience.
+      </p>
+
+      <!-- Poster Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-amber-500 text-zinc-950 flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-stars"></i>
+          </div>
+          <div>
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Helper API</span>
+            <span class="font-bold text-zinc-900">window.Flut</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', 'Guardado para después')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- POSTER 8: NATIVE COMMUNITY PLUGINS (ZERO-JS)                  -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-10 space-y-8 overflow-hidden">
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>08 • PLUGINS NATIVOS</span>
+        <span class="text-emerald-700 bg-emerald-100/80 px-2.5 py-0.5 rounded-full font-mono text-[11px] font-bold">Closed Environment</span>
+      </div>
+
+      <div class="space-y-2">
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-zinc-950 uppercase leading-none">
+          Plugins Zero-JS <br/><span class="text-emerald-600">Comunitarios</span>
+        </h2>
+        <p class="text-sm sm:text-base font-semibold text-zinc-600 pt-1">
+          Ecosistema modular estilo Minecraft y WordPress: configuración en JSON y uso puramente declarativo en HTML.
+        </p>
+      </div>
+
+      <!-- Live Demonstration Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Timer 1 -->
+        <div class="p-6 bg-white rounded-3xl border border-black/5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase font-bold tracking-wider text-zinc-500">Normal (60s)</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 bg-zinc-100 rounded text-zinc-600">60s</span>
+            </div>
+            <div id="demo-timer-60" class="text-3xl font-mono font-black text-zinc-900 tracking-tight" data-timer="60" data-format="mm:ss">
+              01:00
+            </div>
+            <p class="text-xs text-zinc-500">Cuenta regresiva estándar gestionada por el plugin `timer`.</p>
+          </div>
+          <button data-timer-restart="#demo-timer-60"
+            class="w-full py-2 px-3 text-xs font-bold text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5">
+            <i class="bi bi-arrow-clockwise"></i> Reiniciar 60s
+          </button>
+        </div>
+
+        <!-- Timer 2 -->
+        <div class="p-6 bg-white rounded-3xl border border-black/5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase font-bold tracking-wider text-zinc-500">Alerta (15s)</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 bg-rose-50 text-rose-600 rounded">Alerta 5s</span>
+            </div>
+            <div id="demo-timer-15" class="text-3xl font-mono font-black text-zinc-900 tracking-tight" data-timer="15" data-warning="5" data-end="⏰ ¡TIEMPO!">
+              00:15
+            </div>
+            <p class="text-xs text-zinc-500">Se tiñe de rojo parpadeante en los últimos 5 segundos.</p>
+          </div>
+          <button data-timer-restart="#demo-timer-15"
+            class="w-full py-2 px-3 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5">
+            <i class="bi bi-arrow-clockwise"></i> Probar Alerta (15s)
+          </button>
+        </div>
+
+        <!-- Timer 3 -->
+        <div class="p-6 bg-white rounded-3xl border border-black/5 shadow-sm space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs uppercase font-bold tracking-wider text-emerald-600">Prueba Rápida</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded">10s</span>
+            </div>
+            <div id="demo-timer-10" class="text-3xl font-mono font-black text-emerald-600 tracking-tight" data-timer="10" data-format="ss" data-warning="3" data-end="🎉 ¡COMPLETADO!">
+              10s
+            </div>
+            <p class="text-xs text-zinc-500">Formato segundos puros (`ss`) y mensaje final personalizado.</p>
+          </div>
+          <button data-timer-restart="#demo-timer-10"
+            class="w-full py-2 px-3 text-xs font-bold text-white bg-zinc-900 hover:bg-black rounded-xl transition-all shadow-sm cursor-pointer flex items-center justify-center gap-1.5">
+            <i class="bi bi-play-fill text-sm"></i> Reiniciar 10s
+          </button>
+        </div>
+      </div>
+
+      <!-- Code standard explanation -->
+      <div class="p-4 bg-zinc-900 text-zinc-200 rounded-2xl font-mono text-xs overflow-x-auto space-y-1">
+        <p class="text-zinc-400">// Convención de archivos obligatoria del plugin:</p>
+        <p class="text-emerald-400">plugins/timer/timer.flutcom.json</p>
+        <p class="text-emerald-400">plugins/timer/timer.flutcom.js</p>
+      </div>
+    </article>
+
+
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <!-- FINAL POSTER: THERE'S MORE COMING (OUTRO / FOOTER SLIDE)     -->
+    <!-- ══════════════════════════════════════════════════════════════ -->
+    <article class="bg-[#faf8f5]/90 backdrop-blur-sm rounded-[2.5rem] border border-black/10 shadow-[0_20px_50px_rgba(0,0,0,0.06)] p-6 sm:p-12 text-center space-y-6">
+      
+      <div class="flex items-center justify-between text-xs font-semibold text-zinc-500 tracking-wider">
+        <span>Sites for developers</span>
+        <a href="https://github.com/Mrblour/Flutcom" target="_blank" class="hover:text-zinc-900 transition-colors">github.com/Mrblour/Flutcom</a>
+      </div>
+
+      <div class="space-y-3 pt-4">
+        <h2 class="text-4xl sm:text-6xl md:text-7xl font-serif tracking-tight text-zinc-950 leading-tight">
+          There's more coming.<br/>
+          <span class="font-sans font-black uppercase text-3xl sm:text-5xl md:text-6xl text-zinc-900">Follow to keep up.</span>
+        </h2>
+        <p class="text-sm sm:text-base font-medium text-zinc-600 max-w-md mx-auto">
+          Explore documentation, contribute plugins, and build ultra-fast web experiences with Flutcom.
+        </p>
+      </div>
+
+      <!-- Quick Links Pills -->
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <button onclick="Flut.go('home')" 
+          class="px-5 py-2.5 rounded-2xl bg-zinc-900 text-white font-bold text-xs sm:text-sm hover:bg-zinc-800 transition-all shadow-md inline-flex items-center gap-2 cursor-pointer">
+          <i class="bi bi-house-door"></i> Explorar Inicio
+        </button>
+        <button onclick="Flut.toast('success', '¡Gracias por apoyar a Flutcom!')"
+          class="px-5 py-2.5 rounded-2xl bg-white border border-zinc-300 text-zinc-800 font-bold text-xs sm:text-sm hover:bg-zinc-50 transition-all shadow-sm inline-flex items-center gap-2 cursor-pointer">
+          <i class="bi bi-star-fill text-amber-500"></i> Star on GitHub
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex items-center justify-between border-t border-black/5 pt-6 text-xs text-zinc-600 font-medium">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+            <i class="bi bi-heart-fill text-rose-400"></i>
+          </div>
+          <div class="text-left">
+            <span class="block text-zinc-400 text-[10px] uppercase font-bold tracking-wider">Flutcom 2026</span>
+            <span class="font-bold text-zinc-900">Created by yBlour</span>
+          </div>
+        </div>
+        <button onclick="Flut.toast('info', '¡Guardado para siempre!')" class="inline-flex items-center gap-1.5 font-bold text-zinc-900 hover:text-black transition-colors cursor-pointer">
+          <i class="bi bi-bookmark-fill"></i> SAVE FOR LATER
+        </button>
+      </div>
+    </article>
+
+  </div>
+</main>
+
+<!-- Script interactivo específico de la vista -->
+<script>
+  (function () {
+    // 1. Contador interactivo con Flut.store
+    let clicks = window.Flut ? (window.Flut.get('clicks') || 0) : 0;
+    const contadorEl = document.getElementById('demo-contador');
+    const btnSumar = document.getElementById('btn-sumar');
+    const btnReset = document.getElementById('btn-reset');
+
+    if (contadorEl) contadorEl.textContent = clicks;
+
+    if (btnSumar) {
+      btnSumar.onclick = () => {
+        clicks++;
+        if (window.Flut) {
+          window.Flut.set('clicks', clicks);
+        }
+        if (contadorEl) contadorEl.textContent = clicks;
+      };
+    }
+
+    if (btnReset) {
+      btnReset.onclick = () => {
+        clicks = 0;
+        if (window.Flut) {
+          window.Flut.set('clicks', 0);
+          window.Flut.toast('info', 'Contador reseteado a 0');
+        }
+        if (contadorEl) contadorEl.textContent = 0;
+      };
+    }
+
+    // Suscripción al store de Flut
+    if (window.Flut) {
+      window.Flut.watch('clicks', (val) => {
+        if (contadorEl) contadorEl.textContent = val;
+      });
+    }
+
+    // 2. Inspector de SEO en vivo
+    window.actualizarInspectorSeo = function() {
+      const titleEl = document.getElementById('seo-title-val');
+      const descEl = document.getElementById('seo-desc-val');
+      const ogTitleEl = document.getElementById('seo-og-title-val');
+
+      if (titleEl) titleEl.textContent = document.title || 'No establecido';
+      if (descEl) {
+        const meta = document.querySelector('meta[name="description"]');
+        descEl.textContent = meta ? meta.getAttribute('content') : 'No establecido';
+      }
+      if (ogTitleEl) {
+        const meta = document.querySelector('meta[property="og:title"]');
+        ogTitleEl.textContent = meta ? meta.getAttribute('content') : 'No establecido';
+      }
+    };
+
+    // Actualizar tras montar la vista
+    setTimeout(window.actualizarInspectorSeo, 60);
+  })();
+</script>
