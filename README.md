@@ -16,9 +16,10 @@
 <div align="center">
 
 [![License](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.1.0-black.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.2.0-black.svg)](#)
 [![Vanilla JS](https://img.shields.io/badge/Built%20with-Vanilla%20JS-yellow.svg)](#)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
+[![Security](https://img.shields.io/badge/Security-Hardened%20%26%20Audited-10b981.svg)](#security--hardening)
 [![AI Ready](https://img.shields.io/badge/AI--Ready-.agents-blueviolet.svg)](#ai-native-architecture)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-orange.svg)](https://mrblour.github.io/Flutcom/)
 
@@ -30,7 +31,16 @@
 
 ## Overview
 
-Flutcom is a high-performance micro-framework designed to transform static websites into fluid **Single Page Applications (SPA)** without the complexity, runtime dependencies, or heavy build pipelines of traditional frameworks. It gives developers the speed of pure static HTML/CSS/JS with the reactive user experience of modern applications.
+Flutcom is a high-performance, ultra-lightweight micro-framework designed to transform static websites into fluid **Single Page Applications (SPA)** without the complexity, heavy build pipelines, or runtime virtual-DOM tax of traditional frameworks. It delivers the speed and simplicity of pure static HTML/CSS/JS paired with modern reactive ergonomics.
+
+### ✨ Key Highlights (v1.2)
+
+- ⚡ **Zero Runtime Overhead**: No React, no Vue, no Virtual DOM. Pure ES Modules and native DOM APIs.
+- 🧩 **Zero-Code Native Plugins**: Modular, encapsulated plugins (`plugins/<name>/`) configured via simple `.json` files without touching JavaScript.
+- 🛡️ **Security-Hardened Architecture**: Independently audited with built-in defenses against DOM XSS, prototype collisions, and selector injection.
+- ⚡ **Zero-JS Declarative Directives**: Reactive two-way state binding (`fc-model`, `fc-bind`, `fc-show`, `fc-go`, `fc-click`) straight in standard HTML.
+- 🎨 **Component Engine v2**: Semantic custom elements (`<flut-alert>`, `<flut-card>`) with slot projection, sanitization, and caching.
+- 🤖 **AI-Agent Ready**: First-class architectural constraints, skills, and documentation for AI coding assistants via `.agents/` and universal rule files.
 
 ## Prerequisites
 
@@ -200,6 +210,14 @@ Flutcom features an isolated, modular plugin system inspired by Minecraft and Wo
 <!-- Example: Zero-JS countdown with native Timer plugin -->
 <div data-timer="60" data-format="mm:ss" class="text-xl font-bold"></div>
 ```
+
+## Security & Hardening
+
+Flutcom core is engineered with proactive, defense-in-depth security mitigations verified through multi-phase automated audits:
+
+- **Component Sanitization (DOM XSS Immunity)**: Template prop interpolations (`<flut-*>`) are automatically HTML-entity escaped (`_escapeHtml`), ensuring dynamic data cannot break out of attribute boundaries while preserving developer-controlled inner slot HTML.
+- **Prototype Collision Resilience**: Strict `Object.prototype.hasOwnProperty` enforcement prevents prototype pollution issues and collision attacks (e.g. `#toString`, `#valueOf`), gracefully defaulting unrecognized routes to 404.
+- **Safe Dynamic Selectors**: URL fragments and view keys are safely escaped via `CSS.escape` before building query selectors, eliminating DOM denial-of-service vectors.
 
 ## AI-Native Architecture
 
