@@ -42,7 +42,7 @@
     <text x="218" y="21" fill="#2dd4bf" class="badge-text" text-anchor="middle">v1.2.1</text>
 
     <!-- Subtitle -->
-    <text x="0" y="58" class="subtitle">Micro-framework SPA ultraligero y modular para entornos estáticos</text>
+    <text x="0" y="58" class="subtitle">Ultra-lightweight modular SPA micro-framework for static environments</text>
 
     <!-- Highlights Badges -->
     <g transform="translate(0, 78)">

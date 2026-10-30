@@ -29,7 +29,7 @@ con enrutamiento por hash, sin dependencias de runtime.
 3. ✅ **Plugins nativos** (`plugins/<nombre>/`) → registrar en `plugins[]` con su par obligatorio `.flutcom.js`/`.fc.js` y `.flutcom.json`/`.fc.json`. Scripts tradicionales/abiertos en `plugins/opensource/` y `resources[]`.
 4. ❌ **No alterar `flutcom/core.js`** sin permiso explícito del usuario
 5. ✅ **Estado global** → usar siempre `window.flutcomApp.store` (o `Flut.set()` / `Flut.get()`)
-6. ✅ **Registro obligatorio** → registrar SIEMPRE todo cambio importante en `update-log.md`
+6. ✅ **Commits limpios** → registrar cambios mediante mensajes de commit claros y concisos en Git
 
 ## Documentación completa para agentes
 
