@@ -4,6 +4,15 @@ Historial cronológico de cambios, mejoras y evolución arquitectónica del fram
 
 ---
 
+## [1.2.1] — 2026-10-29
+
+### ☁️ Despliegue & Integración Vercel
+- **Soporte y Documentación para Vercel (`vercel.json`, `README.md`)**:
+  - Creado `vercel.json` con configuración para detección automática de `buildCommand` (`npm run build`) y `outputDirectory` (`dist`).
+  - Actualizado [README.md](file:///c:/Users/chamb/Desktop/update/README.md) con insignias oficiales de Vercel, enlace a demo en vivo en Vercel, botón oficial *1-Click Deploy with Vercel* y guía de configuración paso a paso.
+
+---
+
 ## [1.2.0] — 2026-10-28
 
 ### 🛡️ Seguridad y Robustez (Parches de Auditoría)

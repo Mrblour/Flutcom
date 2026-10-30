@@ -19,12 +19,13 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
 [![Security](https://img.shields.io/badge/Security-Hardened%20%26%20Audited-10b981.svg)](#security--hardening)
 [![AI Ready](https://img.shields.io/badge/AI--Ready-.agents-blueviolet.svg)](#ai-native-architecture)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-orange.svg)](https://mrblour.github.io/Flutcom/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000.svg?logo=vercel&logoColor=white)](https://flutcom.vercel.app/)
 
 </div>
 
 <p align="center">
-  <a href="https://mrblour.github.io/Flutcom/">🌐 <strong>View Live Demo</strong></a> •
+  <a href="https://flutcom.vercel.app/">🌐 <strong>View Live Demo</strong></a> •
+  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom">▲ <strong>Deploy to Vercel</strong></a> •
   <a href="https://github.com/Mrblour/Flutcom/wiki">📖 <strong>Explore the Wiki</strong></a>
 </p>
 
@@ -122,6 +123,40 @@ Flut.toast('Operation completed!');
 - 🛡️ **Hardened & Audited**: Built-in immunity against DOM XSS in component props, CSS selector injection, and prototype collisions.
 - 🎯 **Automatic Per-Route SEO**: Dynamic `<title>`, description, and OpenGraph sync on every route navigation.
 - 🤖 **AI-Agent Ready**: Pre-configured guidelines, architectural rules, and operational skills in [`.agents/`](.agents/README.md) for Antigravity, Claude Code, Cursor, and Copilot.
+
+---
+
+## 🚀 Instant Deployment (Vercel)
+
+Flutcom is designed to be 100% static and edge-ready. Deploy your own instance directly to **Vercel** in seconds with zero configuration.
+
+### 1-Click Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom)
+
+### Deploy via Vercel CLI
+
+```bash
+# 1. Install Vercel CLI
+npm i -g vercel
+
+# 2. Deploy preview
+vercel
+
+# 3. Deploy to production
+vercel --prod
+```
+
+### Recommended Vercel Settings
+
+| Setting | Value |
+| :--- | :--- |
+| **Framework Preset** | `Other` |
+| **Build Command** | `npm run build` |
+| **Output Directory** | `dist` |
+| **Install Command** | `npm install` |
+
+> ⚡ **Edge Optimized**: Thanks to Flutcom's native SPA hash router (`#route`), your application works out of the box on Vercel's Edge Network with 0ms cold starts and zero server rewriting required.
 
 ---
 
