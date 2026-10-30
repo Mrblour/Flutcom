@@ -17,7 +17,7 @@
 <p align="center">
   <a href="https://mrblour.github.io/Flutcom/">🌐 <strong>Ver Demo en Vivo</strong></a> •
   <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom">▲ <strong>Desplegar en Vercel</strong></a> •
-  <a href="https://github.com/Mrblour/Flutcom/wiki">📖 <strong>Documentación & Wiki</strong></a>
+  <a href="https://mrblour.github.io/doc-flutcom/#docs">📖 <strong>Documentación Oficial</strong></a>
 </p>
 
 ---
@@ -128,9 +128,10 @@ Dado que Flutcom genera archivos estáticos puros y utiliza navegación por hash
 
 ## Documentación y Recursos
 
-Para consultar la referencia completa de la API, guías paso a paso y creación de plugins nativos:
+Para consultar la referencia completa de la API, guías paso a paso y arquitectura del framework:
 
-👉 **[Explora la Wiki oficial de Flutcom](https://github.com/Mrblour/Flutcom/wiki)**
+👉 **[Sitio de Documentación Oficial de Flutcom](https://mrblour.github.io/doc-flutcom/#docs)**  
+👉 **[Wiki en GitHub](https://github.com/Mrblour/Flutcom/wiki)**
 
 - [Guía de Creación de Componentes HTML](https://github.com/Mrblour/Flutcom/wiki/Components)
 - [Referencia de Directivas Reactivas (`fc-*`)](https://github.com/Mrblour/Flutcom/wiki/Directives)
