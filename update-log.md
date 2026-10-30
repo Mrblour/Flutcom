@@ -9,7 +9,7 @@ Historial cronológico de cambios, mejoras y evolución arquitectónica del fram
 ### ☁️ Despliegue & Integración Vercel
 - **Soporte y Documentación para Vercel (`vercel.json`, `README.md`)**:
   - Creado `vercel.json` con configuración para detección automática de `buildCommand` (`npm run build`) y `outputDirectory` (`dist`).
-  - Actualizado [README.md](file:///c:/Users/chamb/Desktop/update/README.md) con insignias oficiales de Vercel, enlace a demo en vivo en Vercel, botón oficial *1-Click Deploy with Vercel* y guía de configuración paso a paso.
+  - Actualizado y sintetizado [README.md](file:///c:/Users/chamb/Desktop/update/README.md): removido el diagrama pesado de arquitectura, sintetizado el contenido para lectura rápida y moderna, añadidas insignias de Vercel y botón *1-Click Deploy*.
 
 ---
 
