@@ -7,9 +7,10 @@ Historial cronológico de cambios, mejoras y evolución arquitectónica del fram
 ## [1.2.1] — 2026-10-29
 
 ### ☁️ Despliegue & Integración Vercel
-- **Soporte y Documentación para Vercel (`vercel.json`, `README.md`)**:
+- **Documentación, Identidad Visual y Demo (`assets/img/flutcom-banner.svg`, `README.md`)**:
+  - Creado `assets/img/flutcom-banner.svg`: banner con logo oficial, versión v1.2.1 y estética moderna en modo oscuro.
+  - Reescritura humanizada del [README.md](file:///c:/Users/chamb/Desktop/update/README.md): eliminada la sobrecarga de clichés y marketing artificial de IA, corregido el enlace a la demo en vivo oficial a **GitHub Pages** (`https://mrblour.github.io/Flutcom/`), y reestructurada la tabla comparativa con criterios técnicos realistas y balanceados.
   - Creado `vercel.json` con configuración para detección automática de `buildCommand` (`npm run build`) y `outputDirectory` (`dist`).
-  - Actualizado y sintetizado [README.md](file:///c:/Users/chamb/Desktop/update/README.md): removido el diagrama pesado de arquitectura, sintetizado el contenido para lectura rápida y moderna, añadidas insignias de Vercel y botón *1-Click Deploy*.
 
 ---
 

@@ -1,119 +1,144 @@
 <p align="center">
-  <img src="assets/img/flutcom.svg" alt="Flutcom Logo" width="84" height="84" />
-</p>
-
-# Flutcom
-
-<p align="center">
-  <strong>Ultra-fast, zero-dependency SPA micro-framework for static environments.</strong>
-  <br/>
-  Pure HTML5, CSS & modern Vanilla ES Modules. No Virtual DOM. Zero runtime tax.
+  <a href="https://mrblour.github.io/Flutcom/">
+    <img src="assets/img/flutcom-banner.svg" alt="Flutcom Banner" width="100%" />
+  </a>
 </p>
 
 <div align="center">
 
-[![License](https://img.shields.io/badge/License-MIT-black.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.2.1-black.svg)](#)
-[![Vanilla JS](https://img.shields.io/badge/Built%20with-Vanilla%20JS-yellow.svg)](#)
+[![Licencia](https://img.shields.io/badge/License-MIT-111827.svg)](LICENSE)
+[![Versión](https://img.shields.io/badge/version-1.2.1-0284c7.svg)](#)
+[![Vanilla JS](https://img.shields.io/badge/Vanilla-ES%20Modules-eab308.svg)](#)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
-[![Security](https://img.shields.io/badge/Security-Hardened-10b981.svg)](#)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000.svg?logo=vercel&logoColor=white)](https://flutcom.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-22c55e.svg?logo=github&logoColor=white)](https://mrblour.github.io/Flutcom/)
 
 </div>
 
 <p align="center">
-  <a href="https://flutcom.vercel.app/">🌐 <strong>Live Demo</strong></a> •
-  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom">▲ <strong>Deploy to Vercel</strong></a> •
-  <a href="https://github.com/Mrblour/Flutcom/wiki">📖 <strong>Wiki & Docs</strong></a>
+  <a href="https://mrblour.github.io/Flutcom/">🌐 <strong>Ver Demo en Vivo</strong></a> •
+  <a href="https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom">▲ <strong>Desplegar en Vercel</strong></a> •
+  <a href="https://github.com/Mrblour/Flutcom/wiki">📖 <strong>Documentación & Wiki</strong></a>
 </p>
 
 ---
 
-## ⚡ Why Flutcom?
+## ¿Por qué Flutcom?
 
-| Feature | ⚡ Flutcom | ⚛️ React | 💚 Vue | 🍦 Vanilla JS |
-| :--- | :---: | :---: | :---: | :---: |
-| **Runtime Size** | **0 KB** | ~140 KB | ~90 KB | 0 KB |
-| **Dependencies** | **0 runtime** | 1,000+ | 1,000+ | 0 |
-| **DOM Engine** | 🚀 **Direct Native** | Virtual DOM | Virtual DOM | Direct |
-| **Build Step** | ❌ **Optional** | ✅ Mandatory | ✅ Mandatory | ❌ No |
-| **Reactivity** | ✅ **Zero-JS (`fc-*`)** | Complex Hooks | Requires `<script>` | Manual listeners |
-| **Components** | ✅ **`<flut-*>` + Slots** | JSX | SFC (`.vue`) | Verbose WebComponents |
-| **Learning Curve** | 🟢 **10 min** | 🔴 Steep | 🟡 Medium | 🟡 Moderate |
+Flutcom nació para resolver un problema cotidiano: cuando quieres construir una Single Page Application (SPA) interactiva para hostings estáticos (como GitHub Pages, Vercel o Netlify), los frameworks tradicionales te obligan a instalar cientos de megabytes en `node_modules`, configurar bundlers complejos y pagar la sobrecarga de un Virtual DOM.
+
+Flutcom ofrece enrutamiento SPA por hash, componentes reutilizables con slots, directivas reactivas en HTML (`fc-model`) y un almacén global en **puro JavaScript moderno (ES Modules)**, con **0 dependencias de runtime**.
+
+### Comparativa técnica objetiva
+
+| Aspecto | ⚡ Flutcom | React | Vue | Vanilla JS clásico |
+| :--- | :--- | :--- | :--- | :--- |
+| **Peso en runtime** | **0 KB** (sin dependencias) | ~140 KB (`react` + `react-dom`) | ~90 KB (`vue` runtime) | 0 KB |
+| **Arquitectura DOM** | **DOM nativo directo** | Virtual DOM con diffing | Virtual DOM con Proxies | Manipulación manual directa |
+| **Enrutador SPA** | **Nativo por hash integrado** (`#home`) | Requiere librería (`react-router`) | Requiere librería (`vue-router`) | Sin enrutador (código a mano) |
+| **Reactividad** | **Directivas HTML** (`fc-model`, `fc-bind`) | Estado y Hooks (`useState`) | Directivas reactivas (`v-model`) | Event listeners y `innerHTML` manual |
+| **Paso de compilación** | **Opcional** (corre directo en navegador) | Obligatorio (JSX / Vite / Babel) | Obligatorio (`.vue` compiler) | Ninguno |
+| **Curva de aprendizaje** | **Mínima** (HTML, CSS y JS estándar) | Moderada a empinada | Moderada | Baja |
+| **Ideal para** | Sitios estáticos, landings, micro-SPAs, dashboards | Aplicaciones web masivas y plataformas corporativas | Aplicaciones web medianas a grandes | Scripts simples de una página |
 
 ---
 
-## 🚀 Quick Start
+## Inicio Rápido (30 segundos)
 
-Create a new project in seconds:
+Crea un proyecto nuevo con la CLI oficial:
 
 ```bash
 npm create flutcom@latest
 ```
 
-Or clone manually:
+O clona este repositorio directamente:
 
 ```bash
-git clone https://github.com/Mrblour/Flutcom.git my-app
-cd my-app && npm install && npm run dev
+git clone https://github.com/Mrblour/Flutcom.git mi-app
+cd mi-app
+npm install
+npm run dev
 ```
 
-| Command | Action |
+### Comandos de desarrollo
+
+| Comando | Función |
 | :--- | :--- |
-| `npm run dev` | Dev server with Tailwind live watch |
-| `npm run build` | Compile & optimize bundle to `dist/` |
-| `npm run preview` | Test production build locally |
+| `npm run dev` | Inicia el servidor de desarrollo local con recarga en vivo y compilación continua de Tailwind CSS. |
+| `npm run build` | Compila y minifica los estilos y empaqueta los archivos estáticos listos para producción en la carpeta `dist/`. |
+| `npm run preview` | Levanta un servidor local estático para probar la versión compilada de `dist/`. |
 
 ---
 
-## 💡 How It Looks
+## Cómo se programa en Flutcom
 
-### Declarative Components & Reactivity (Zero JS)
+### 1. Componentes con proyección de slots y reactividad declarativa
 ```html
-<flut-card title="Profile">
-  <input fc-model="name" placeholder="Type your name..." />
-  <p>Hello, <strong fc-bind="name">Guest</strong>!</p>
-  <button fc-click="Flut.toast('Saved!')">Save</button>
+<!-- Componente reutilizable con directivas reactivas integradas -->
+<flut-card title="Mi Perfil">
+  <!-- fc-model sincroniza automáticamente con el estado global -->
+  <input fc-model="usuario" placeholder="Escribe tu nombre..." />
+  
+  <!-- fc-bind refleja el valor reactivo en tiempo real -->
+  <p>Hola, <strong fc-bind="usuario">Visitante</strong></p>
+
+  <button fc-click="Flut.toast('¡Perfil guardado!')">Guardar</button>
 </flut-card>
 ```
 
-### Global Store & Navigation
+### 2. Enrutamiento declarativo (`flutcom.config.js`)
 ```javascript
-Flut.go('home');                 // Navigate SPA
-Flut.set('theme', 'dark');       // Reactive global store
-Flut.toast('Welcome back!');     // Toast notification
+export const routes = {
+  home:    { view: "resources/views/home.html",    title: "Inicio" },
+  about:   { view: "resources/views/about.html",   title: "Nosotros" },
+  contact: { view: "resources/views/contact.html", title: "Contacto" }
+};
+```
+
+### 3. Helper global unificado (`Flut`)
+```javascript
+// Navegación programática
+Flut.go('about');
+
+// Estado reactivo global
+Flut.set('tema', 'oscuro');
+const temaActual = Flut.get('tema');
+
+// Notificaciones flotantes instantáneas
+Flut.toast('Operación realizada con éxito');
 ```
 
 ---
 
-## 📦 Key Highlights
+## Despliegue
 
-- 🧩 **Zero-Code Plugins**: Configured via `.json` (`plugins/<name>/`), isolated and self-contained.
-- 🛡️ **Hardened by Design**: Built-in DOM XSS protection, safe CSS selector queries, and prototype pollution guards.
-- 🎯 **Per-Route SEO**: Automatic dynamic `<title>`, `<meta>` and OpenGraph sync.
-- 🤖 **AI-Agent Ready**: Pre-tuned guidelines in [`.agents/`](.agents/README.md) for Cursor, Claude Code, and Antigravity.
+Dado que Flutcom genera archivos estáticos puros y utiliza navegación por hash (`#home`, `#about`), funciona en cualquier proveedor de hosting estático sin requerir configuración especial de reescritura de URLs en el servidor.
 
----
-
-## ▲ Deploy to Vercel
+### Desplegar en Vercel con 1-Click
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FMrblour%2FFlutcom)
 
-```bash
-npm i -g vercel && vercel --prod
-```
+#### Configuración recomendada para Vercel:
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
+- **Install Command:** `npm install`
 
-| Setting | Value |
-| :--- | :--- |
-| **Build Command** | `npm run build` |
-| **Output Directory** | `dist` |
-
-> ⚡ **Edge Optimized**: Native SPA hash routing works immediately on Vercel's Edge Network with 0ms cold starts.
+*(El archivo `vercel.json` ya se incluye en la raíz del proyecto para preconfigurar estos valores de manera automática).*
 
 ---
 
-## 📚 Documentation & License
+## Documentación y Recursos
 
-Explore guides and API reference in the **[Flutcom Wiki](https://github.com/Mrblour/Flutcom/wiki)**.
+Para consultar la referencia completa de la API, guías paso a paso y creación de plugins nativos:
 
-Licensed under [MIT](LICENSE).
+👉 **[Explora la Wiki oficial de Flutcom](https://github.com/Mrblour/Flutcom/wiki)**
+
+- [Guía de Creación de Componentes HTML](https://github.com/Mrblour/Flutcom/wiki/Components)
+- [Referencia de Directivas Reactivas (`fc-*`)](https://github.com/Mrblour/Flutcom/wiki/Directives)
+- [Sistema de Plugins Nativos Zero-Code](https://github.com/Mrblour/Flutcom/wiki/Plugins)
+- [Ciclo de Vida y Protección de Rutas](https://github.com/Mrblour/Flutcom/wiki/Routing)
+
+---
+
+## Licencia
+
+Distribuido bajo la licencia [MIT](LICENSE). Código libre y abierto para proyectos personales y comerciales.
