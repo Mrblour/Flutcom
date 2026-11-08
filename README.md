@@ -8,6 +8,8 @@
 
 [![License](https://img.shields.io/badge/License-MIT-111827.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-1.4.0-0284c7.svg)](#)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6.svg?logo=typescript&logoColor=white)](#)
+[![Tests](https://img.shields.io/badge/Tests-14%20passed-22c55e.svg?logo=vitest&logoColor=white)](#)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla-ES%20Modules-eab308.svg)](#)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
 [![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-22c55e.svg?logo=github&logoColor=white)](https://mrblour.github.io/Flutcom/)
@@ -64,8 +66,10 @@ npm run dev
 | Command | Description |
 | :--- | :--- |
 | `npm run dev` | Starts local dev server with live-reloading and Tailwind CSS continuous compilation. |
-| `npm run build` | Compiles and minifies CSS, packaging production-ready static assets into the `dist/` folder. |
+| `npm run build` | Compiles Tailwind, generates dynamic `sitemap.xml`, and packages production assets into `dist/`. |
 | `npm run preview` | Serves the production `dist/` build locally for verification. |
+| `npm run check` | Runs static TypeScript type checking (`tsc --noEmit`) with complete IntelliSense support. |
+| `npm test` | Runs the full Vitest automated test suite (14 unit tests covering router, store, and helpers). |
 
 ---
 
@@ -85,12 +89,28 @@ npm run dev
 </flut-card>
 ```
 
-### 2. Declarative Route Mapping (`flutcom.config.js`)
+### 2. Declarative Route Mapping with Full SEO & Schema.org (`flutcom.config.js`)
 ```javascript
 export const routes = {
-  home:    { view: "resources/views/home.html",    title: "Home" },
-  about:   { view: "resources/views/about.html",   title: "About Us" },
-  contact: { view: "resources/views/contact.html", title: "Contact" }
+  home: {
+    view        : "resources/views/public/home.html",
+    title       : "Home",
+    description : "Lightweight, zero-runtime-dependency SPA micro-framework.",
+    keywords    : ["flutcom", "spa", "vanilla js"],
+    robots      : "index, follow",
+    image       : "https://mrblour.github.io/Flutcom/assets/img/flutcom-banner.svg",
+    // Schema.org Structured Data for Google Rich Snippets
+    jsonLd      : {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Flutcom"
+    }
+  },
+  ejemplos: {
+    view        : "resources/views/public/ejemplos.html",
+    title       : "Examples & Components",
+    description : "Interactive gallery of modular Flutcom components."
+  }
 };
 ```
 
