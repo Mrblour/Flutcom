@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * flutcom/flut.js — Helper Global de Flutcom
  *
@@ -18,6 +19,15 @@
  * ════════════════════════════════════════════════════════════════
  */
 
+/**
+ * @typedef {import('../types/flutcom').FlutHelper} FlutHelper
+ * @typedef {import('../types/flutcom').FlutcomApp} FlutcomApp
+ */
+
+/**
+ * @param {FlutcomApp} app
+ * @returns {FlutHelper}
+ */
 export function createFlutHelper(app) {
   const Flut = {
 
@@ -56,12 +66,12 @@ export function createFlutHelper(app) {
      * Suscribirse a cambios de una clave específica del store.
      * @param {string}   key  Nombre de la clave a observar
      * @param {function} fn   Callback que recibe el nuevo valor
-     * @returns {function}    Función para cancelar la suscripción
+     * @returns {() => void}  Función para cancelar la suscripción
      */
     watch(key, fn) {
-      return app.store.subscribe((changedKey, newValue) => {
+      return /** @type {() => void} */ (app.store.subscribe((changedKey, newValue) => {
         if (changedKey === key) fn(newValue);
-      });
+      }));
     },
 
     /**
@@ -106,10 +116,11 @@ export function createFlutHelper(app) {
     /**
      * Controla un modal por su ID.
      * @param {string} id  ID del elemento modal (sin #)
-     * @returns {{ open: function, close: function }}
+     * @returns {{ open(): void, close(): void }}
      */
     modal(id) {
-      return {
+      /** @type {{ open(): void, close(): void }} */
+      const ctrl = {
         open() {
           document.dispatchEvent(new CustomEvent('fc-modal-open', { detail: { id } }));
         },
@@ -117,6 +128,7 @@ export function createFlutHelper(app) {
           document.dispatchEvent(new CustomEvent('fc-modal-close', { detail: { id } }));
         },
       };
+      return ctrl;
     },
 
 

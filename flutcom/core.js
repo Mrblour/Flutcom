@@ -73,6 +73,11 @@ export class Flutcom {
     // Caché global de componentes cargados
     this._componentCache = {};
 
+    // ─── Sistema de cleanup de suscripciones al store por vista ───
+    // Almacena las funciones de desuscripción activas de la vista actual.
+    // Se llaman antes de cargar la siguiente vista para evitar memory leaks.
+    this._viewCleanups = [];
+
     // ─── Sistema de Plugins Nativos Flutcom ───
     // Lista de nombres de plugins declarados en flutcom.config.js
     this._pluginNames   = plugins;
@@ -195,7 +200,10 @@ export class Flutcom {
     if (typeof r === 'string') {
       return { path: r, title: hash.charAt(0).toUpperCase() + hash.slice(1), description: this._cfg?.descripcion || '' };
     }
+    // ── Preservar TODOS los campos SEO (keywords, robots, image, canonical, jsonLd)
+    // para que el hook afterEnter en main.js pueda leerlos correctamente.
     return {
+      ...r,
       path        : r.view || r.path || '',
       title       : r.title       || hash,
       description : r.description || this._cfg?.descripcion || '',
@@ -205,6 +213,10 @@ export class Flutcom {
   async _navigate(viewPath, viewName) {
     const content = this._getContainer('content');
     if (!content) return;
+
+    // ── Limpiar suscripciones de la vista anterior para evitar memory leaks ──
+    this._viewCleanups.forEach(fn => fn());
+    this._viewCleanups = [];
 
     await this._runHooks('beforeLeave', viewName, content);
 
@@ -605,12 +617,13 @@ export class Flutcom {
       };
 
       update();
-      this.store.subscribe((changedKey, newVal) => {
-        if (!document.contains(el)) return;
+      const _unsub1 = this.store.subscribe((changedKey, newVal) => {
+        if (!document.contains(el)) { _unsub1(); return; }
         if (changedKey === key) {
           el.textContent = (newVal !== undefined && newVal !== null) ? newVal : '';
         }
       });
+      this._viewCleanups.push(_unsub1);
     });
 
     // ─── 2. fc-model: Two-way binding para formularios ──────────────────────
@@ -648,8 +661,8 @@ export class Flutcom {
       el.addEventListener(isCheckbox || isRadio || el.tagName === 'SELECT' ? 'change' : 'input', onInput);
 
       // Store → Input
-      this.store.subscribe((changedKey, newVal) => {
-        if (!document.contains(el)) return;
+      const _unsub2 = this.store.subscribe((changedKey, newVal) => {
+        if (!document.contains(el)) { _unsub2(); return; }
         if (changedKey === key) {
           if (isCheckbox) {
             el.checked = Boolean(newVal);
@@ -662,6 +675,7 @@ export class Flutcom {
           }
         }
       });
+      this._viewCleanups.push(_unsub2);
     });
 
     // ─── 3. fc-show: Visibilidad condicional ─────────────────────────────────
@@ -688,10 +702,11 @@ export class Flutcom {
       };
 
       update();
-      this.store.subscribe(changedKey => {
-        if (!document.contains(el)) return;
+      const _unsub3 = this.store.subscribe(changedKey => {
+        if (!document.contains(el)) { _unsub3(); return; }
         if (changedKey === key) update();
       });
+      this._viewCleanups.push(_unsub3);
     });
 
     // ─── 4. fc-go: Navegación declarativa ────────────────────────────────────

@@ -1,6 +1,7 @@
-const { execSync } = require('child_process');
-const fs           = require('fs');
-const path         = require('path');
+const { execSync }     = require('child_process');
+const fs               = require('fs');
+const path             = require('path');
+const { pathToFileURL } = require('url');
 
 // ─── Asegurar Node.js en PATH (Windows) ──────────────────────────────────────
 if (process.platform === 'win32') {
@@ -123,6 +124,7 @@ function getDirStats(dirPath) {
         { name: 'resources',         type: 'dir',  optional: false },
         { name: 'assets',            type: 'dir',  optional: false },
         { name: 'plugins',           type: 'dir',  optional: true  },
+        { name: 'robots.txt',        type: 'file', optional: true  },
     ];
 
     let copiedFiles = 0;
@@ -145,6 +147,50 @@ function getDirStats(dirPath) {
             fs.copyFileSync(srcPath, destPath);
             copiedFiles++;
             console.log(`  ${c.green}✓${c.reset} Copied ${c.bold}${item.name}${c.reset}`);
+        }
+    }
+
+    // ── 4. Generar sitemap.xml dinámico desde flutcom.config.js ─────────────
+    console.log(`${c.cyan}◆${c.reset} Generating sitemap.xml from routes...`);
+    try {
+        const configUrl = pathToFileURL(path.join(rootDir, 'flutcom.config.js')).href;
+        const { routes, site } = await import(configUrl);
+        const baseUrl = (site.url || '').replace(/\/$/, '');
+        const today   = new Date().toISOString().split('T')[0];
+
+        const urlEntries = [
+            // Raíz siempre incluida con prioridad máxima
+            `  <url>\n    <loc>${baseUrl}/</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
+            // Una entrada por cada ruta pública
+            ...Object.keys(routes).map((key, i) => {
+                const r = routes[key];
+                // Omitir rutas marcadas como noindex
+                const robots = typeof r === 'object' ? (r.robots || '') : '';
+                if (robots.includes('noindex')) return null;
+                const priority = i === 0 ? '0.9' : '0.8';
+                return `  <url>\n    <loc>${baseUrl}/#${key}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${priority}</priority>\n  </url>`;
+            }).filter(Boolean),
+        ];
+
+        const sitemapXml =
+            `<?xml version="1.0" encoding="UTF-8"?>\n` +
+            `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+            urlEntries.join('\n') + '\n' +
+            `</urlset>\n`;
+
+        fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml, 'utf8');
+        // También actualizar la copia fuente para mantenerla en sync
+        fs.writeFileSync(path.join(rootDir, 'sitemap.xml'), sitemapXml, 'utf8');
+        copiedFiles++;
+        console.log(`  ${c.green}✓${c.reset} Generated ${c.bold}sitemap.xml${c.reset} ${c.dim}(${Object.keys(routes).length + 1} URLs)${c.reset}`);
+    } catch (err) {
+        console.warn(`  ${c.yellow}⚠${c.reset} Could not auto-generate sitemap.xml: ${err.message}`);
+        // Fallback: copiar el sitemap.xml existente si lo hay
+        const sitemapSrc = path.join(rootDir, 'sitemap.xml');
+        if (fs.existsSync(sitemapSrc)) {
+            fs.copyFileSync(sitemapSrc, path.join(distDir, 'sitemap.xml'));
+            copiedFiles++;
+            console.log(`  ${c.green}✓${c.reset} Copied ${c.bold}sitemap.xml${c.reset} ${c.dim}(fallback)${c.reset}`);
         }
     }
 

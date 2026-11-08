@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /dist/
+
+Sitemap: https://mrblour.github.io/Flutcom/sitemap.xml
+

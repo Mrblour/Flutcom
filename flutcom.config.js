@@ -1,3 +1,4 @@
+// @ts-check
 /**
  * Flutcom Application Configuration
  *
@@ -8,20 +9,15 @@
 /**
  * Site metadata and global routing defaults.
  *
- * @type {{
- *   nombre: string,
- *   autor: string,
- *   version: string,
- *   descripcion: string,
- *   defaultView: string,
- *   notFoundView: string
- * }}
+ * @type {import('./types/flutcom').SiteConfig}
  */
 export const site = {
   nombre      : "Flutcom",
   autor       : "yBlour",
-  version     : "1.2.0",
+  version     : "1.3.0",
   descripcion : "Ultra-fast, zero-dependency micro SPA framework",
+  url         : "https://mrblour.github.io/Flutcom/",
+  lang        : "es",
 
   /** Default view loaded on root navigation (e.g., #home) */
   defaultView : "home",
@@ -35,7 +31,7 @@ export const site = {
  * Persistent shell partials (layout structure).
  * Injected into matching container IDs (e.g. #navbar, #footer) in index.html.
  *
- * @type {Record<string, string>}
+ * @type {import('./types/flutcom').PartialsConfig}
  */
 export const partials = {
   navbar : "resources/partials/header.html",
@@ -47,21 +43,25 @@ export const partials = {
  * Public routes configuration.
  *
  * Supports two formats:
- * - Rich format (recommended): Object with `view`, `title`, and `description` for per-route SEO.
+ * - Rich format (recommended): Object with `view`, `title`, `description`, `keywords`, `robots`, and `jsonLd`.
  * - Simple format: "hash": "path/to/view.html"
  *
- * @type {Record<string, { view: string, title?: string, description?: string } | string>}
+ * @type {Record<string, import('./types/flutcom').RouteDefinition>}
  */
 export const routes = {
   home: {
     view        : "resources/views/public/home.html",
     title       : "Home",
     description : "Lightweight, zero-runtime-dependency SPA micro-framework.",
+    keywords    : ["flutcom", "spa", "vanilla js", "micro framework"],
+    robots      : "index, follow",
   },
   ejemplos: {
     view        : "resources/views/public/ejemplos.html",
     title       : "Examples & Components",
     description : "Interactive gallery of modular Flutcom components.",
+    keywords    : ["flutcom components", "reactive directives", "vanilla components"],
+    robots      : "index, follow",
   },
   // about: {
   //   view        : "resources/views/public/about.html",
@@ -75,7 +75,7 @@ export const routes = {
  * Protected and authentication routes (optional).
  * Access rules can be enforced with app.guard() in flutcom/main.js.
  *
- * @type {Record<string, string>}
+ * @type {Record<string, import('./types/flutcom').RouteDefinition>}
  */
 export const authRoutes = {
   // login    : "resources/views/auth/login.html",
@@ -85,14 +85,6 @@ export const authRoutes = {
 
 /**
  * Native Flutcom plugins (closed-environment, auto-loaded).
- *
- * Each entry must be the folder name of a plugin inside `plugins/`,
- * which MUST contain both required files:
- *   - `plugins/<name>/<name>.flutcom.js`  (or `<name>.fc.js`)
- *   - `plugins/<name>/<name>.flutcom.json` (or `<name>.fc.json`)
- *
- * Plugins without both files will be ignored by the engine.
- * For standalone `.js` scripts, use the `resources` array below instead.
  *
  * @type {string[]}
  */
@@ -106,11 +98,8 @@ export const plugins = [
 
 /**
  * Global modular plugins and scripts.
- * Register interactive JavaScript plugins and modular extensions here.
  *
- * Note: Core styling (e.g. style.css) should be linked in index.html for performance.
- *
- * @type {Array<{ type: "js" | "css", file: string }>}
+ * @type {import('./types/flutcom').ResourceItem[]}
  */
 export const resources = [
   // Standalone framework plugins / open-source scripts
