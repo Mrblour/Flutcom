@@ -1,17 +1,20 @@
-# 🚀 Flutcom Update Log — v1.3.0
+# 🚀 Flutcom Update Log — v1.4.0
 
 > **Fecha de actualización:** Noviembre 2026  
-> **Versión anterior:** `v1.2.0`  
-> **Nueva versión:** `v1.3.0`
+> **Versión anterior:** `v1.3.0`  
+> **Nueva versión:** `v1.4.0`
 
 ---
 
 ## 📌 Resumen de Cambios
 
-En esta versión se incorporan dos grandes mejoras arquitectónicas sin perder la filosofía fundamental de Flutcom (**cero dependencias en tiempo de ejecución y cero sobrecarga para sitios estáticos**):
+En esta versión se consolidan grandes mejoras arquitectónicas y de estabilidad sin perder la filosofía fundamental de Flutcom (**cero dependencias en tiempo de ejecución y cero sobrecarga para sitios estáticos**):
 
-1. **Soporte Completo de TypeScript (TS)**: Autocompletado inteligente (IntelliSense) y verificación de tipos estática opcional (`npm run check`) sin requerir compiladores pesados para el navegador.
-2. **Motor Avanzado de SEO para Google y Redes Sociales**: Soporte dinámico para motores de búsqueda (Googlebot), etiquetas canónicas, Open Graph, Twitter Cards, Schema.org (JSON-LD), `robots.txt` y `sitemap.xml`.
+1. **Soporte Completo de TypeScript (TS)**: Autocompletado inteligente (IntelliSense) mediante definiciones en `types/flutcom.d.ts`, funciones `defineConfig()` / `definePlugin()` y verificación de tipos estática (`npm run check`) sin errores.
+2. **Motor Avanzado de SEO para Google y Redes Sociales**: Soporte dinámico para Googlebot, etiquetas canónicas por vista, Open Graph, Twitter Cards, Schema.org (JSON-LD), directiva `Disallow: /dist/` en `robots.txt` y generación automática de `sitemap.xml` en cada build.
+3. **Optimización de Memoria y Rendimiento**: Sistema `_viewCleanups` en el núcleo que desuscribe automáticamente observadores reactivos del Store entre navegaciones SPA, evitando fugas de memoria.
+4. **Accesibilidad SPA**: Enfoque programático con `tabindex="-1"` en el contenedor principal al cambiar de vista.
+5. **Suite de Pruebas Automatizadas**: 14 tests unitarios en Vitest (`npm test`) validando router, reactividad del store y utilidades globales.
 
 ---
 

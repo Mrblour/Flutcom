@@ -14,7 +14,7 @@
 export const site = {
   nombre      : "Flutcom",
   autor       : "yBlour",
-  version     : "1.3.0",
+  version     : "1.4.0",
   descripcion : "Ultra-fast, zero-dependency micro SPA framework",
   url         : "https://mrblour.github.io/Flutcom/",
   lang        : "es",
