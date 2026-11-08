@@ -1,30 +1,40 @@
 {
   "name": "flutcom",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Flutcom – a ultra‑fast, zero‑dependency SPA framework for static sites.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "watch:css": "tailwindcss -i ./src/input.css -o ./assets/vendor/tailwind/tailwind.css --watch",
     "serve": "npx serve . -p 3000",
     "dev": "node run/dev.js",
     "build": "node run/build.js",
-    "preview": "node run/preview.js"
+    "preview": "node run/preview.js",
+    "check": "tsc --noEmit"
   },
-  "keywords": ["flutcom","spa","vanilla-js","framework"],
+  "keywords": [
+    "flutcom",
+    "spa",
+    "vanilla-js",
+    "framework"
+  ],
   "author": "yBlour",
-  "license": "ISC",
-"homepage": "https://mrblour.github.io/Flutcom/",
-"repository": {
-  "type": "git",
-  "url": "https://github.com/Mrblour/Flutcom.git"
-},
+  "license": "MIT",
+  "homepage": "https://mrblour.github.io/Flutcom/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mrblour/Flutcom.git"
+  },
   "devDependencies": {
     "@tailwindcss/cli": "^4.1.17",
     "autoprefixer": "^10.4.22",
     "concurrently": "^9.2.1",
+    "jsdom": "^30.1.3",
     "live-server": "^1.2.2",
     "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   }
 }

@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License](https://img.shields.io/badge/License-MIT-111827.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.2.1-0284c7.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.3.0-0284c7.svg)](#)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla-ES%20Modules-eab308.svg)](#)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-38bdf8.svg)](#)
 [![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-22c55e.svg?logo=github&logoColor=white)](https://mrblour.github.io/Flutcom/)
