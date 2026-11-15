@@ -148,6 +148,7 @@ export function createFlutHelper(app) {
   };
 
   // Exponer en window para que las vistas puedan usarlo sin imports
-  window.Flut = Flut;
-  return Flut;
+  // Object.freeze() protege la API pública de modificaciones externas (seguridad)
+  window.Flut = Object.freeze(Flut);
+  return /** @type {FlutHelper} */ (window.Flut);
 }

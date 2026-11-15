@@ -26,6 +26,9 @@ export default {
   },
 
   onNavigate(viewName, container) {
+    // Desconectar el observer anterior para evitar memory leaks y re-observar elementos stale
+    if (this._observer) this._observer.disconnect();
+    this._setupObserver();
     this._scan(container || document);
   },
 
@@ -87,6 +90,9 @@ export default {
                 children[i].style.transitionDelay = `${i * stagger}ms`;
               }
             }
+
+            // Dejar de observar una vez animado — evita re-disparos y ahorra memoria
+            this._observer.unobserve(el);
           }, delay);
         }
       });

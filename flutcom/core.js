@@ -54,6 +54,9 @@ export class Flutcom {
       _listeners: [],
       get(key) { return this._state[key]; },
       set(key, val) { 
+        // Omitir notificación si el valor primitivo no cambió (evita renders innecesarios)
+        // No aplica a objetos/arrays (referencia siempre diferente, no comparamos por valor)
+        if (this._state[key] === val && typeof val !== 'object') return;
         this._state[key] = val; 
         this._listeners.forEach(fn => fn(key, val, this._state)); 
       },
@@ -77,6 +80,10 @@ export class Flutcom {
     // Almacena las funciones de desuscripción activas de la vista actual.
     // Se llaman antes de cargar la siguiente vista para evitar memory leaks.
     this._viewCleanups = [];
+
+    // ─── Versión precomputada para cache-busting de URLs ─────────
+    // Se calcula UNA sola vez en el constructor en lugar de en cada fetch.
+    this._v = this._cfg?.version ? `?v=${this._cfg.version}` : `?v=${Date.now()}`;
 
     // ─── Sistema de Plugins Nativos Flutcom ───
     // Lista de nombres de plugins declarados en flutcom.config.js
@@ -397,86 +404,95 @@ export class Flutcom {
   async _loadFlutcomPlugins() {
     if (!this._pluginNames.length) return;
 
+    // Cargar todos los plugins en paralelo — mejora el tiempo de arranque
+    // cuando hay múltiples plugins sin dependencias entre sí
+    await Promise.all(this._pluginNames.map(name => this._loadOnePlugin(name)));
+  }
+
+  /**
+   * Carga e inicializa un único plugin nativo por nombre.
+   * Errores en un plugin no bloquean el resto.
+   * @param {string} name
+   */
+  async _loadOnePlugin(name) {
     // Extensiones soportadas en orden de preferencia
     const JS_EXTS   = ['.flutcom.js',   '.fc.js'];
     const JSON_EXTS = ['.flutcom.json', '.fc.json'];
 
-    for (const name of this._pluginNames) {
-      const base = `plugins/${name}/${name}`;
+    const base = `plugins/${name}/${name}`;
 
-      // ─── 1. Detectar extensión JSON disponible ────────────────────
-      let configData = null;
-      let jsonFound  = false;
+    // ─── 1. Detectar extensión JSON disponible ────────────────────
+    let configData = null;
+    let jsonFound  = false;
 
-      for (const ext of JSON_EXTS) {
-        try {
-          const res = await fetch(`${base}${ext}`);
-          if (res.ok) {
-            configData = await res.json();
-            jsonFound  = true;
-            break;
-          }
-        } catch { /* probar siguiente extensión */ }
-      }
-
-      if (!jsonFound || !configData) {
-        console.warn(
-          `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró archivo de configuración.\n` +
-          `  Esperado: plugins/${name}/${name}.flutcom.json  o  plugins/${name}/${name}.fc.json`
-        );
-        continue;
-      }
-
-      // ─── 2. Verificar que el plugin está habilitado ───────────────
-      if (configData.enabled === false) {
-        console.info(`[Flutcom Plugin] ✋ Plugin "${name}" está deshabilitado (enabled: false). Saltando.`);
-        continue;
-      }
-
-      // ─── 3. Detectar extensión JS disponible ─────────────────────
-      let pluginModule = null;
-      let jsFound      = false;
-
-      for (const ext of JS_EXTS) {
-        try {
-          const rawUrl = `${base}${ext}`;
-          const moduleUrl = new URL(rawUrl, window.location.origin + window.location.pathname).href;
-          pluginModule = await import(/* @vite-ignore */ moduleUrl);
-          jsFound = true;
+    for (const ext of JSON_EXTS) {
+      try {
+        const res = await fetch(`${base}${ext}`);
+        if (res.ok) {
+          configData = await res.json();
+          jsonFound  = true;
           break;
-        } catch { /* probar siguiente extensión */ }
-      }
-
-      if (!jsFound || !pluginModule) {
-        console.warn(
-          `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró el archivo JS.\n` +
-          `  Esperado: plugins/${name}/${name}.flutcom.js  o  plugins/${name}/${name}.fc.js`
-        );
-        continue;
-      }
-
-      // ─── 4. Obtener la instancia exportada por defecto ────────────
-      const plugin = pluginModule.default ?? pluginModule;
-
-      if (typeof plugin !== 'object' || plugin === null) {
-        console.warn(`[Flutcom Plugin] ⚠️ El módulo "${name}" no exporta un objeto válido como default.`);
-        continue;
-      }
-
-      // ─── 5. Ejecutar init() con la instancia de la app y la config ─
-      if (typeof plugin.init === 'function') {
-        try {
-          await Promise.resolve(plugin.init(this, configData));
-        } catch (err) {
-          console.error(`[Flutcom Plugin] ❌ Error en init() del plugin "${name}":`, err);
-          continue;
         }
-      }
-
-      // ─── 6. Registrar como plugin activo ─────────────────────────
-      this._activePlugins.push(plugin);
-      console.info(`[Flutcom Plugin] ✅ Plugin "${name}" cargado correctamente.`);
+      } catch { /* probar siguiente extensión */ }
     }
+
+    if (!jsonFound || !configData) {
+      console.warn(
+        `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró archivo de configuración.\n` +
+        `  Esperado: plugins/${name}/${name}.flutcom.json  o  plugins/${name}/${name}.fc.json`
+      );
+      return;
+    }
+
+    // ─── 2. Verificar que el plugin está habilitado ───────────────
+    if (configData.enabled === false) {
+      console.info(`[Flutcom Plugin] ✋ Plugin "${name}" está deshabilitado (enabled: false). Saltando.`);
+      return;
+    }
+
+    // ─── 3. Detectar extensión JS disponible ─────────────────────
+    let pluginModule = null;
+    let jsFound      = false;
+
+    for (const ext of JS_EXTS) {
+      try {
+        const rawUrl = `${base}${ext}`;
+        const moduleUrl = new URL(rawUrl, window.location.origin + window.location.pathname).href;
+        pluginModule = await import(/* @vite-ignore */ moduleUrl);
+        jsFound = true;
+        break;
+      } catch { /* probar siguiente extensión */ }
+    }
+
+    if (!jsFound || !pluginModule) {
+      console.warn(
+        `[Flutcom Plugin] ⚠️ Plugin "${name}" ignorado: no se encontró el archivo JS.\n` +
+        `  Esperado: plugins/${name}/${name}.flutcom.js  o  plugins/${name}/${name}.fc.js`
+      );
+      return;
+    }
+
+    // ─── 4. Obtener la instancia exportada por defecto ────────────
+    const plugin = pluginModule.default ?? pluginModule;
+
+    if (typeof plugin !== 'object' || plugin === null) {
+      console.warn(`[Flutcom Plugin] ⚠️ El módulo "${name}" no exporta un objeto válido como default.`);
+      return;
+    }
+
+    // ─── 5. Ejecutar init() con la instancia de la app y la config ─
+    if (typeof plugin.init === 'function') {
+      try {
+        await Promise.resolve(plugin.init(this, configData));
+      } catch (err) {
+        console.error(`[Flutcom Plugin] ❌ Error en init() del plugin "${name}":`, err);
+        return;
+      }
+    }
+
+    // ─── 6. Registrar como plugin activo ─────────────────────────
+    this._activePlugins.push(plugin);
+    console.info(`[Flutcom Plugin] ✅ Plugin "${name}" cargado correctamente.`);
   }
 
   // ═══════════════════════════════════════════════════════════
@@ -745,6 +761,18 @@ export class Flutcom {
       if (!action) return;
       el.style.cursor = 'pointer';
       el.addEventListener('click', e => {
+        // ── Modo estricto (site.strictMode: true) ───────────────────────────
+        // Solo permite llamadas de la forma: Flut.metodo(...) o Flut.metodo()
+        // Mitiga XSS si el contenido HTML proviene de una fuente no confiable.
+        if (this._cfg?.strictMode) {
+          if (!/^Flut\.[a-zA-Z_$][a-zA-Z0-9_$]*\(.*\)$/.test(action.trim())) {
+            console.warn(
+              `[Flutcom] fc-click bloqueado por strictMode. ` +
+              `Solo se permiten llamadas Flut.metodo(). Acción: "${action}"`
+            );
+            return;
+          }
+        }
         try {
           new Function('e', 'Flut', 'app', action)(e, window.Flut, this);
         } catch (err) {
@@ -785,14 +813,18 @@ export class Flutcom {
   // ═══════════════════════════════════════════════════════════
 
   _injectLoadingBar() {
-    if (document.getElementById('fc-bar')) return;
+    if (document.getElementById('fc-bar')) {
+      this._bar = document.getElementById('fc-bar');
+      return;
+    }
     const bar = document.createElement('div');
     bar.id = 'fc-bar';
     document.body.prepend(bar);
+    this._bar = bar;
   }
 
   _progressStart() {
-    const bar = document.getElementById('fc-bar');
+    const bar = document.contains(this._bar) ? this._bar : null;
     if (!bar) return;
     bar.style.transition = 'none';
     bar.style.width      = '0%';
@@ -803,7 +835,7 @@ export class Flutcom {
   }
 
   _progressEnd() {
-    const bar = document.getElementById('fc-bar');
+    const bar = document.contains(this._bar) ? this._bar : null;
     if (!bar) return;
     bar.style.width = '100%';
     setTimeout(() => { bar.style.opacity = '0'; }, 250);
@@ -817,8 +849,7 @@ export class Flutcom {
   /** Añade la versión del framework a la URL para evitar caché del navegador */
   _versionUrl(url) {
     if (!url || url.includes('?') || url.startsWith('http')) return url;
-    const v = this._cfg?.version || Date.now();
-    return `${url}?v=${v}`;
+    return url + this._v;
   }
 
   /** Rellena elementos con data-fc-slot="clave" usando valores del config */
@@ -838,14 +869,13 @@ export class Flutcom {
   /** Escapa entidades HTML para mitigar inyecciones de código (XSS) */
   _escapeHtml(val) {
     if (val === null || val === undefined) return '';
-    return String(val).replace(/[&<>"']/g, m => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#39;'
-    }[m]));
+    return String(val).replace(Flutcom._HTML_ESCAPE_RE, m => Flutcom._HTML_ESCAPE_MAP[m]);
   }
 
   _wait(ms) { return new Promise(r => setTimeout(r, ms)); }
 }
+
+// ─── Mapa estático de escape HTML ───────────────────────────────────────────
+// Definido fuera de la clase para evitar re-creación en cada llamada (perf)
+Flutcom._HTML_ESCAPE_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+Flutcom._HTML_ESCAPE_RE  = /[&<>"']/g;

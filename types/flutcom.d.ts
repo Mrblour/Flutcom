@@ -27,6 +27,13 @@ export interface SiteConfig {
   lang?: string;
   /** Imagen global para Open Graph y Twitter Cards (ruta absoluta o relativa) */
   image?: string;
+  /**
+   * Activa el modo estricto para fc-click.
+   * Cuando es `true`, solo se permiten expresiones del tipo `Flut.metodo(...)`.
+   * Recomendado si el HTML de las vistas puede provenir de fuentes externas.
+   * @default false
+   */
+  strictMode?: boolean;
 }
 
 /**

@@ -7,7 +7,7 @@
 <div align="center">
 
 [![License](https://img.shields.io/badge/License-MIT-111827.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.4.0-0284c7.svg)](#)
+[![Version](https://img.shields.io/badge/version-1.4.1-0284c7.svg)](#)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6.svg?logo=typescript&logoColor=white)](#)
 [![Tests](https://img.shields.io/badge/Tests-14%20passed-22c55e.svg?logo=vitest&logoColor=white)](#)
 [![Vanilla JS](https://img.shields.io/badge/Vanilla-ES%20Modules-eab308.svg)](#)
@@ -163,3 +163,4 @@ For the full API reference, step-by-step guides, and native plugin development:
 ## License
 
 Distributed under the [MIT](LICENSE) License. Free and open-source software for personal and commercial use.
+
