@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Disallow: /dist/
+Disallow: /run/
+Disallow: /tests/
+Disallow: /create-flutcom/
 
 Sitemap: https://mrblour.github.io/Flutcom/sitemap.xml
-

@@ -4,21 +4,46 @@ Antes de modificar cualquier archivo de este proyecto, **lee y obedece estrictam
 las directrices definidas en:
 
 - [`AGENTS.md`](AGENTS.md) — Resumen rápido y reglas de oro
-- [`.agents/README.md`](.agents/README.md) — Índice completo
+- [`.agents/README.md`](.agents/README.md) — Índice completo de la arquitectura
 - [`.agents/rules/architecture.md`](.agents/rules/architecture.md) — Reglas arquitectónicas
 - [`.agents/rules/code-style.md`](.agents/rules/code-style.md) — Estilo de código
 - [`.agents/rules/design-system.md`](.agents/rules/design-system.md) — Sistema de diseño
 - [`.agents/context/project-overview.md`](.agents/context/project-overview.md) — Contexto del proyecto
 - [`.agents/context/file-map.md`](.agents/context/file-map.md) — Mapa de archivos
 
+---
+
 ## Reglas críticas (resumen mínimo)
 
-- ❌ NO uses librerías de runtime (React, Vue, Angular, etc.)
-- ❌ NO modifiques `flutcom/core.js` sin permiso explícito del usuario
-- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js` (soporta formato simple o enriquecido con SEO)
-- ✅ Plugins nativos (`plugins/<nombre>/`) van en `plugins[]` con su par `.flutcom.js` + `.flutcom.json`
-- ✅ Scripts tradicionales o abiertos van en `resources[]`
-- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store` o mediante el helper `window.Flut` (`Flut.set()`, `Flut.get()`, `Flut.watch()`)
-- ✅ Las vistas son fragmentos HTML (sin `<html>`, `<head>`, `<body>`)
-- ✅ Usar Vanilla JS (ES Modules) y Tailwind v4 como únicos toolings
-- ✅ Antes de finalizar tareas, verifica salud: `npm run check` (TypeScript) y `npm test` (Vitest)
+- ❌ **NO uses librerías de runtime** (React, Vue, Angular, Svelte, etc.). Solo Vanilla JS (ES Modules).
+- ❌ **NO modifiques `flutcom/core.js`** sin permiso explícito del usuario.
+- ✅ **Toda nueva ruta DEBE registrarse en `flutcom.config.js`** (soporta formato simple o enriquecido con SEO).
+- ✅ **Plugins nativos** (`plugins/<nombre>/`) van en `plugins[]` con su par `.flutcom.js` + `.flutcom.json`.
+- ✅ **Scripts tradicionales o abiertos** van en `resources[]`.
+- ✅ **El estado global se maneja SIEMPRE con** `window.flutcomApp.store` o mediante el helper `window.Flut` (`Flut.set()`, `Flut.get()`, `Flut.watch()`).
+- ✅ **Las vistas son fragmentos HTML** (sin `<html>`, `<head>`, `<body>`).
+- ✅ **Usar Vanilla JS y Tailwind v4** como únicos toolings de desarrollo.
+- ✅ **Verificación de salud obligatoria**: antes de finalizar tareas, ejecuta `npm run check` (TypeScript) y `npm test` (Vitest).
+- 🔒 **Notas locales**: `update.md` y `croquis.md` son notas privadas locales y NUNCA deben comitearse a Git.
+
+---
+
+## Directivas Reactivas Zero-JS (Sintaxis rápida)
+
+Cursor debe usar estas directivas para construir interactividad sin escribir JS:
+
+| Directiva | Uso |
+| :--- | :--- |
+| `fc-model="clave"` | Two-way binding para `<input>`, `<textarea>`, `<select>`, checkboxes. |
+| `fc-bind="clave"` | Proyección reactiva de texto en tiempo real en cualquier elemento. |
+| `fc-show="clave"` | Muestra/oculta un elemento según valor del store (soporta `!clave` para negar). |
+| `fc-go="ruta"` | Navega por hash a una ruta registrada al hacer clic. |
+| `fc-toggle="id"` | Alterna la visibilidad del elemento con ese ID. |
+| `fc-click="Flut.toast('...')"` | Ejecuta acciones seguras del helper `Flut` al hacer clic. |
+
+---
+
+## Componentes Modulares (`resources/components/`)
+
+- Invocar con tags declarativos: `<flut-alert title="...">Contenido</flut-alert>`.
+- Los componentes aceptan slots dinámicos vía `{{ slot }}` y propiedades con `{{ nombreProp }}`.

@@ -44,6 +44,18 @@ Modern web frameworks often require hundreds of megabytes of `node_modules`, com
 
 ---
 
+## Key Features in v1.4.1
+
+- 🛡️ **Cybersecurity Hardened**: Content Security Policy (CSP), frozen public API with `Object.freeze(window.Flut)`, and optional `strictMode` for `fc-click`.
+- 🔍 **Dynamic SEO & Schema.org Engine**: Automatically updates document title, canonical URLs, Open Graph, Twitter Cards, and Google Rich Snippets (`application/ld+json`) per view.
+- 🏷️ **First-Class TypeScript Support**: Full IntelliSense via JSDoc and `types/flutcom.d.ts` definitions, plus `defineConfig()` and `definePlugin()` helpers (`npm run check`).
+- 🧹 **Zero Memory Leaks**: Native `_viewCleanups` automatically unsubscribes store listeners and observers between SPA navigaciones.
+- ⚡ **Optimized Performance**: Pre-computed cache-busting version strings, parallel plugin loading (`Promise.all`), primitive store equality guards, and static HTML escape tables.
+- 🧪 **Automated Testing Suite**: 14 unit tests powered by Vitest (`npm test`) validating router resolution, reactivity, and helper methods.
+- 🚀 **Automated Static Sitemap**: Generates production-ready `sitemap.xml` dynamically during `npm run build`.
+
+---
+
 ## Quick Start (30 Seconds)
 
 Create a new project using the official interactive CLI:
