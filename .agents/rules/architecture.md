@@ -67,21 +67,30 @@ Existen dos tipos de extensiones en Flutcom:
 
 ---
 
-## 6. Estado global
+## 6. Estado global y Helper `Flut`
 
-Para compartir datos entre vistas, usar **exclusivamente** el store integrado:
+Para compartir datos entre vistas o interactuar con el framework, usar el helper global `window.Flut` o el store integrado:
 
 ```js
-// Escribir
+// Usando el Helper Flut (recomendado):
+Flut.set('usuario', { nombre: 'Alex' });
+const user = Flut.get('usuario');
+const unsub = Flut.watch('usuario', (nuevoValor) => console.log(nuevoValor));
+
+// O directamente a través del Store:
 window.flutcomApp.store.set('usuario', { nombre: 'Alex' });
-
-// Leer
 const user = window.flutcomApp.store.get('usuario');
-
-// Suscribirse a cambios
-window.flutcomApp.store.subscribe((key, val) => {
+const unsub = window.flutcomApp.store.subscribe((key, val) => {
   console.log(`[store] ${key} actualizado:`, val);
 });
 ```
 
 **No uses** `window.miVariable` ni variables globales sueltas.
+
+---
+
+## 7. Verificación de Calidad
+
+Antes de considerar una tarea completada, los agentes deben ejecutar:
+- `npm run check` → Verificación de tipos TypeScript (`tsc --noEmit`) sin errores.
+- `npm test` → 14 pruebas unitarias en Vitest pasando exitosamente.

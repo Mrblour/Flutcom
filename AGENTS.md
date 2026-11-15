@@ -9,27 +9,32 @@
 ## Resumen Rápido
 
 **Flutcom** es un micro-framework SPA para sitios estáticos basado en **Vanilla JS (ES Modules)**
-con enrutamiento por hash, sin dependencias de runtime.
+con enrutamiento por hash, sin dependencias de runtime (versión actual: `v1.4.1`).
 
 ## Archivos clave
 
 | Archivo | Rol |
 | :--- | :--- |
-| `flutcom.config.js` | Configuración central (rutas, plugins, metadata) |
-| `flutcom/core.js` | Motor del framework — **no modificar** |
+| `flutcom.config.js` | Configuración central (rutas, plugins, metadata SEO, partials) |
+| `flutcom/core.js` | Motor del framework — **no modificar** sin permiso explícito |
 | `flutcom/main.js` | Bootstrap — modificaciones mínimas |
-| `resources/views/` | Vistas HTML inyectadas dinámicamente |
-| `resources/partials/` | Header y footer persistentes |
+| `flutcom/flut.js` | Helper global `window.Flut` (`go`, `set`, `get`, `watch`, `modal`, `toast`) |
+| `resources/views/` | Vistas HTML inyectadas dinámicamente en `<flut-main>` |
+| `resources/partials/` | Header (`<flut-navbar>`) y footer (`<flut-footer>`) persistentes |
+| `resources/components/` | Componentes modulares con tags `<flut-*>` y slots `{{ slot }}` |
 | `plugins/` | Extensiones JS modulares |
+| `types/flutcom.d.ts` | Definiciones TypeScript para configuración, rutas y plugins |
 
 ## Reglas de oro
 
 1. ❌ **No uses librerías de runtime** (React, Vue, etc.)
-2. ✅ **Toda nueva ruta** → registrar en `flutcom.config.js`
+2. ✅ **Toda nueva ruta** → registrar en `flutcom.config.js` (formato simple o enriquecido con SEO)
 3. ✅ **Plugins nativos** (`plugins/<nombre>/`) → registrar en `plugins[]` con su par obligatorio `.flutcom.js`/`.fc.js` y `.flutcom.json`/`.fc.json`. Scripts tradicionales/abiertos en `plugins/opensource/` y `resources[]`.
 4. ❌ **No alterar `flutcom/core.js`** sin permiso explícito del usuario
-5. ✅ **Estado global** → usar siempre `window.flutcomApp.store` (o `Flut.set()` / `Flut.get()`)
-6. ✅ **Commits limpios** → registrar cambios mediante mensajes de commit claros y concisos en Git
+5. ✅ **Estado global** → usar siempre `window.flutcomApp.store` o el helper `Flut.set()` / `Flut.get()` / `Flut.watch()`
+6. ✅ **Verificación de calidad** → tras cambios importantes, ejecuta `npm run check` (TypeScript) y `npm test` (pruebas Vitest)
+7. ✅ **Commits limpios** → registrar cambios mediante mensajes de commit claros y concisos en Git
+8. 🔒 **Archivos locales** → notas personales como `update.md` o `croquis.md` son locales y nunca deben subirse al repositorio
 
 ## Documentación completa para agentes
 

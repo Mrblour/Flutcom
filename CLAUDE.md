@@ -14,16 +14,19 @@ Antes de realizar cualquier acción en este proyecto, **lee obligatoriamente**:
 
 - ❌ NO uses librerías de runtime (React, Vue, Angular, etc.)
 - ❌ NO modifiques `flutcom/core.js` sin permiso explícito del usuario
-- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js`
-- ✅ Todo nuevo plugin DEBE declararse en `resources[]` de `flutcom.config.js`
-- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store`
+- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js` (soporta formato simple o enriquecido con SEO)
+- ✅ Plugins nativos (`plugins/<nombre>/`) van en `plugins[]` con su par `.flutcom.js` + `.flutcom.json`
+- ✅ Scripts tradicionales o abiertos van en `resources[]`
+- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store` o mediante el helper `window.Flut` (`Flut.set()`, `Flut.get()`, `Flut.watch()`)
 - ✅ Las vistas son fragmentos HTML (sin `<html>`, `<head>`, `<body>`)
 - ✅ Usar Vanilla JS (ES Modules) y Tailwind v4 como únicos toolings
+- ✅ Antes de finalizar tareas, verifica salud: `npm run check` (TypeScript) y `npm test` (Vitest)
 
 ## Skills disponibles (guías paso a paso)
 
 Consulta antes de ejecutar tareas frecuentes:
 
-- [`.agents/skills/add-route.md`](.agents/skills/add-route.md) — Añadir una nueva ruta/vista
-- [`.agents/skills/create-plugin.md`](.agents/skills/create-plugin.md) — Crear un plugin
-- [`.agents/skills/create-component.md`](.agents/skills/create-component.md) — Crear un componente
+- [`.agents/skills/add-route.md`](.agents/skills/add-route.md) — Añadir una nueva ruta/vista (con SEO dinámico)
+- [`.agents/skills/create-plugin.md`](.agents/skills/create-plugin.md) — Crear un plugin nativo o abierto
+- [`.agents/skills/create-component.md`](.agents/skills/create-component.md) — Crear un componente modular v2
+- [`.agents/skills/reactive-directives.md`](.agents/skills/reactive-directives.md) — Directivas reactivas Zero-JS

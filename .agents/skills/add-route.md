@@ -25,17 +25,25 @@ El archivo debe ser un **fragmento HTML** (sin `<html>`, `<head>` ni `<body>`):
 
 ## Paso 2 — Registrar la ruta en `flutcom.config.js`
 
-Abre `flutcom.config.js` y añade la ruta en el objeto `routes`:
+Abre `flutcom.config.js` y añade la ruta en el objeto `routes`. Puedes usar formato simple o formato enriquecido con SEO:
 
 ```js
 export const routes = {
-  home    : "resources/views/public/home.html",
-  about   : "resources/views/public/about.html",    // ← nueva ruta
-  contact : "resources/views/public/contact.html",  // ← otra nueva ruta
+  // Formato simple:
+  home: "resources/views/public/home.html",
+
+  // Formato enriquecido (recomendado para SEO):
+  about: {
+    view        : "resources/views/public/about.html",
+    title       : "Acerca de Nosotros",
+    description : "Conoce más sobre el equipo y la misión del proyecto.",
+    keywords    : ["acerca", "equipo", "flutcom"],
+    robots      : "index, follow",
+  },
 };
 ```
 
-> Ahora la vista estará disponible en `#about` y `#contact`.
+> Ahora la vista estará disponible en `#about` con metadatos dinámicos automáticos.
 
 ---
 

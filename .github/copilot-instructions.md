@@ -15,8 +15,10 @@ Antes de hacer cualquier sugerencia o modificación en este repositorio,
 
 - ❌ NO uses librerías de runtime (React, Vue, Angular, etc.)
 - ❌ NO modifiques `flutcom/core.js` sin permiso explícito del usuario
-- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js`
-- ✅ Todo nuevo plugin DEBE declararse en `resources[]` de `flutcom.config.js`
-- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store`
+- ✅ Toda nueva ruta DEBE registrarse en `flutcom.config.js` (soporta formato simple o enriquecido con SEO)
+- ✅ Plugins nativos (`plugins/<nombre>/`) van en `plugins[]` con su par `.flutcom.js` + `.flutcom.json`
+- ✅ Scripts tradicionales o abiertos van en `resources[]`
+- ✅ El estado global se maneja SIEMPRE con `window.flutcomApp.store` o con el helper `window.Flut` (`Flut.set()`, `Flut.get()`, `Flut.watch()`)
 - ✅ Las vistas son fragmentos HTML sin `<html>`, `<head>` ni `<body>`
 - ✅ Vanilla JS (ES Modules) + Tailwind v4 son los únicos toolings permitidos
+- ✅ Verifica estabilidad: ejecuta `npm run check` (TypeScript) y `npm test` (pruebas Vitest)
